@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" type="text/css" href="styles.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <canvas id="myCanvas" width="200" height="100"></canvas>
+    <hr />
+    <button class="myButton" onclick="moveSquare()">Click Me</button>
+
+    <script>
+      let ctx = document.querySelector("#myCanvas").getContext("2d");
+
+      btn = document.querySelector("myButton");
+      draw = (x, y, height, width) => {
+        ctx.fillRect(x, y, height, width);
+      };
+    </script>
+  </body>
+</html>

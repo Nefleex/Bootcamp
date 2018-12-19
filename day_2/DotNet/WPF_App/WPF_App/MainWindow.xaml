@@ -1,0 +1,17 @@
+﻿<Window x:Class="WPF_App.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPF_App"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid>
+        <TextBox HorizontalAlignment="Left" Height="40" Margin="90,50,0,0" TextWrapping="Wrap" Text="Enter name" VerticalAlignment="Top" Width="148" TextChanged="TextBox_TextChanged_1"/>
+        <TextBox HorizontalAlignment="Left" Height="40" Margin="90,150,0,0" TextWrapping="Wrap" Text="Enter year you were born" VerticalAlignment="Top" Width="148" TextChanged="TextBox_TextChanged"/>
+        <Button x:Name="___SubmitButton_" Content="Submit" HorizontalAlignment="Left" Margin="90,323,0,0" VerticalAlignment="Top" Width="148"/>
+        <TextBox HorizontalAlignment="Left" Height="40" Margin="432,54,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="263"/>
+        <Label Content="Label" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="430,300,0,0" Width="150"/>
+
+    </Grid>
+</Window>
