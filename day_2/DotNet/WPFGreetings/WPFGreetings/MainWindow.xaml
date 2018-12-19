@@ -1,0 +1,23 @@
+﻿<Window x:Class="WPFGreetings.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPFGreetings"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Grid Margin="-2,0,2,0">
+        <TextBox Name="firstName" Height="30" Margin="70,42,572,350" />
+        <Label Content="First name" HorizontalAlignment="Left" Margin="70,10,0,0" VerticalAlignment="Top" Width="150"/>
+        <TextBox Name="Age" Height="30" Margin="284,140,358,250" />
+        <Label Content="Age" HorizontalAlignment="Left" Margin="284,110,0,0" VerticalAlignment="Top" Width="150" RenderTransformOrigin="0.521,5.393"/>
+        <Button Content="Submit" HorizontalAlignment="Left" Margin="70,349,0,0" VerticalAlignment="Top" Width="150" Click="Submit_Click"/>
+        <TextBox Name="lastName" Height="30" Margin="284,42,358,350" />
+        <Label Content="Last name" HorizontalAlignment="Left" Margin="284,10,0,0" VerticalAlignment="Top" Width="150"/>
+        <Label Content="I understand Terms &amp; Conditions" HorizontalAlignment="Left" Margin="88,290,0,0" VerticalAlignment="Top" Width="366"/>
+        <CheckBox x:Name="checkBox" HorizontalAlignment="Left" Margin="70,295,0,0" VerticalAlignment="Top"  />
+        <TextBox x:Name="Email" Height="30" Margin="70,140,572,250" />
+        <Label Content="E-mail" HorizontalAlignment="Left" Margin="70,110,0,0" VerticalAlignment="Top" Width="150"/>
+        <Label x:Name="submitFN" Content="" HorizontalAlignment="Left" Margin="543,42,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.453,0.209" Width="141"/>
+    </Grid>
+</Window>
