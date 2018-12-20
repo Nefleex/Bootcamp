@@ -25,6 +25,19 @@ namespace WPFGreetings
         string age = "";
         string email = "";
 
+        private void colorBorder(TextBox textbox, string str) 
+            {
+            if (str.Length < 1 )
+                 {
+                textbox.BorderBrush = Brushes.Red;
+            }
+            else
+            {
+                textbox.BorderBrush = Brushes.Gray;
+            }
+        }
+
+
         private void formValidation()
         {
             // checking if email contains @ sign and isn't empty
@@ -37,34 +50,12 @@ namespace WPFGreetings
             }
 
             //check that fields are not empty
-            if (firstname.Length < 1 )
-            {
-                firstName.BorderBrush = Brushes.Red;
-            }
-            else
-            {
-                firstName.BorderBrush = Brushes.Gray;
-            }
+            colorBorder(firstName, firstname);
+            colorBorder(lastName, lastname);
+            colorBorder(Age, age);
 
-            if (lastname.Length < 1)
-            {
-                lastName.BorderBrush = Brushes.Red;
-            }
-            else
-            {
-                lastName.BorderBrush = Brushes.Gray;
-            }
 
-            if (age.Length < 1)
-            {
-                Age.BorderBrush = Brushes.Red;
-            }
-            else
-            {
-                Age.BorderBrush = Brushes.Gray;
-            }
-
-            //catching exception where Int32 can't parse Age textbox's string to int
+            //catching exception where Int32 can't parse Age textbox string to int
             try
             {
                 int ageInteger = Int32.Parse(age);
@@ -89,7 +80,7 @@ namespace WPFGreetings
         {
             firstname = firstName.Text;
             lastname = lastName.Text;
-            age = Age.Text;    //int.Parse(Age.Text);
+            age = Age.Text;    
             email = Email.Text;
 
             formValidation();

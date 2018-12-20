@@ -1,0 +1,44 @@
+Tehtäviä
+
+1. Selvitä, mitkä asiat vaikuttavat tietokoneiden suorituskykyyn?
+
+a) Suorittimen eli prosessorin ytimien määrä, kellotaajuus.
+b) RAM:in määrä ja kellotaajuus.
+c) Kovalevyn kirjoitus ja lukunopeus, sekä tilan määrä.
+d) Muiden prosessien määrä: jos tietokoneella on muita prosesseja tai ohjelmia käsiteltävänä, se voi vaikuttaa nopeuteen.
+e) Näytönohjaimen muistin määrä ja nopeus, näytönohjaimen grafiikkasuorittimen nopeu
+
+
+
+2. Millaiset ovat oman tietokoneesi tekniset ominaisuudet?
+
+- Intel i5-3570k: 4.3GHz 4-ytiminen, GeForce GTX980: 4GB muisti, 1.2 MHZ kellotaajuus. 500GB SSD levy, 1TB kovalevy
+
+
+3. Mitä eroa on tavallisella tietokoneella ja palvelin-tietokoneella?
+
+- palvelin-tietokoneet:
+	
+	a) käyvät läpi vaativamman laatuvalvonnan, koska niiden on kestettävä vuosien jatkuvan käytön. 24/7
+	b) kalliimpaa
+	c) optimoitu erilailla
+		- sen on palveltava suurempia määriä tehtäviä,
+	   	- fyysesti kestävämpi (esim tärinälle tai lämmölle), 
+		- käyttää sähköä ja tilaa tehokkaammin
+	d) yhteensopiva muiden palvelin-laitteiden kanssa (ECC, rekisteröity RAM)
+
+
+4. Mitä tarkoittaa suorittimen (engl. processor) ydin (core)?
+
+Processor = kokonaisuus, Ydin = komentoja suorittava komponentti, 
+joka voi suorittaa yhtä tehtävää samanaikaisesti. Moniytimisyys mahdollistaa monen tehtävän
+samanaikaisen suorittamisen.
+
+
+
+5. Mitä tarkoitetaan 32- tai 64-bittisyydellä?
+
+32-bittiset suorittimet käsittelevät data yksikköjä, jotka ovat suurimillaan 32-bittisiä. 32-bittinen suoritin voi
+hyödyntää vain maksimissaan n. 4GB:ia RAM:ia.
+
+6. Tutustu .NET-ympäristön komentoon ”dotnet”. Mitä sillä voi tehdä?
