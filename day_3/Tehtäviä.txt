@@ -17,9 +17,17 @@ hetkell‰.
 k‰ytt‰miin kieliin.
 
 - Sovitut k‰yt‰nnˆt, syntaksi. Erona: ohjelmointikielien tarkoitus on m‰‰ritt‰‰ joukko komentoja, joita
-koneet tai k‰‰nt‰j‰t pystyvyt k‰sittelem‰‰n.
+koneet tai k‰‰nt‰j‰t pystyvyt k‰sittelem‰‰n. Ihmiskielell‰ voidaan kommunikoida abstrakteja ideoita ja jutella ilman syvemp‰‰
+tarkoitusta.
 
 4. Git on yksi t‰m‰n hetken suosituimmista versionhallintaj‰rjestelmist‰. Mit‰ muita
 versionhallintaj‰rjestelmi‰ on olemassa? Nime‰ ainakin kolme.
 
+-VCS, version control systems: CVS(Centralized Version Control): Subversion(SVN), DVCS(Distributed Version Control System): Github, AWS CodeCommit(Cloud), 
+Bitbucket
+
 5. Listaa syit‰, miksi versionhallinta on hyˆdyllinen, vaikka koodaisit sovelluksia vain yksin?
+
+- Branches (Oksat): kykenee kehitt‰m‰‰n eri versioita samanaikaisesti tallentamatta niit‰ p‰‰llek‰in.
+- Historia: palautus vanhempaan versioon tarvittaessa, kuten yll‰tt‰vien bugien ilmentyminen uusimassa versiossa.
+- Tagit ja check ins: kommentoi ja merkitse seurataksesi edistyst‰ ja helpottaa kirjanpitoa ja ajatuksenkulkua.
