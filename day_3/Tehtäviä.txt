@@ -1,0 +1,25 @@
+Harjoitus 4. Kytke tekemääsi JavaScript-sovellukseen laaduntarkastustyökalu ESLint (tai TSLint)
+
+Mitä hyötyä tällaisista työkaluista voi olla?
+
+-Että saadaan toimivaa ja siistiä koodia kehitysvaiheessa.
+
+1. Selvitä, mitkä ovat kolme yleisintä ohjelmointikieltä web-sovellusten kehittämiseen tällä
+hetkellä.
+
+-(HTML, CSS) Javascript, Python, PHP
+
+2. Selvitä, mitä tarkoitetaan käsitteellä alusta (engl. platform) web-sovelluksista puhuttaessa?
+
+- Arkkitehtuuri, kieli  ja teknologiat, mitä käyttää tietyn sovelluksen kehittämiseen.
+
+3. Pohdi, mitä eroja ja samankaltaisuuksia tietokoneiden ohjelmointikielillä on ihmisten
+käyttämiin kieliin.
+
+- Sovitut käytännöt, syntaksi. Erona: ohjelmointikielien tarkoitus on määrittää joukko komentoja, joita
+koneet tai kääntäjät pystyvyt käsittelemään.
+
+4. Git on yksi tämän hetken suosituimmista versionhallintajärjestelmistä. Mitä muita
+versionhallintajärjestelmiä on olemassa? Nimeä ainakin kolme.
+
+5. Listaa syitä, miksi versionhallinta on hyödyllinen, vaikka koodaisit sovelluksia vain yksin?

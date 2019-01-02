@@ -1,0 +1,9 @@
+{
+  "name": "visual-studio-first-app",
+  "version": "0.0.0",
+  "description": "VisualStudioFirstApp",
+  "main": "app.js",
+  "author": {
+    "name": ""
+  }
+}

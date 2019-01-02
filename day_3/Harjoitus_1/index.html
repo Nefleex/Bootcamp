@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h4 class="header">This will be changed</h4>
+    <hr />
+    <button class="btn" onclick="clickHandler()">Click Me</button>
+
+    <script>
+      clickHandler = () => {
+        document.querySelector(".header").innerHTML = "Text changed";
+      };
+    </script>
+  </body>
+</html>
