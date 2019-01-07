@@ -1,26 +1,17 @@
 {
-  "name": "mongodb-example",
+  "name": "mongodb-udemy",
   "version": "1.0.0",
+  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
-<<<<<<< HEAD
-    "joi": "^14.3.1",
     "mongodb": "^3.1.10",
     "mongoose": "^5.4.2"
   }
-=======
-    "mongodb": "^3.1.10",
-    "mongoose": "^5.4.2"
-  },
-  "devDependencies": {},
-  "description": ""
->>>>>>> a29a119bbb9d22d02073fcfcfe25bc6d3e782aae
 }
