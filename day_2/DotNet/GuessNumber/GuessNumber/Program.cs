@@ -34,7 +34,7 @@ namespace GuessNumber
                     if (inputValue > 20 || inputValue < 0)
             {
                 Console.WriteLine("Number you entered is not within required parameter (less than 1 or greater than 20\nTry Again");
-                        userInput = Console.ReadLine();
+                userInput = Console.ReadLine();
                 inputValue = Convert.ToInt32(userInput);
             }
             }
