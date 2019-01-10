@@ -1,0 +1,27 @@
+<html>
+  <head></head>
+  <body>
+    <h1>Node Blog</h1>
+    <form action="addpost" method="POST">
+      <textarea name="body"></textarea> <input type="submit" value="Add Post" />
+    </form>
+    <!--
+    <form action="/" method="GET">
+      <textarea name="/" id="post-area"></textarea
+      ><input type="submit" value="Show posts" />
+    </form>
+    -->
+    <div class="posts"></div>
+
+    <script>
+      const posts = document.querySelector(".posts");
+      const xhr = new XMLHttpRequest();
+      xhr.open("GET", "localhost:3000", true);
+      xhr.send();
+
+      xhr.onload = () => {
+        posts.textContent = this.responseText;
+      };
+    </script>
+  </body>
+</html>
