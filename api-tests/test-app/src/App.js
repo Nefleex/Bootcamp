@@ -1,50 +1,92 @@
 import React, { Component } from "react";
+import Channel from "./components/Channel";
+import "./App.css";
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
       isLoaded: false,
-      apiData: ""
+      apiData: "",
+      yle1data: "",
+      yle2data: "",
+      privateApiKey: process.env.REACT_APP_API_KEY
     };
   }
-
+  // TO-DO: Hide apikey from source files
   componentDidMount() {
-    const privateApiKey =
-      "app_id=503e2195&app_key=b38968680e164a5e8d72f821b94cd9ff";
-    const url = `https://external.api.yle.fi/v1/programs/schedules.json?service=yle-areena \
-    &mediaobject=video&limit=100&${privateApiKey}`;
+    const yle1Url = `https://external.api.yle.fi/v1/programs/schedules.json?service=yle-tv1 \
+    &limit=20&${this.state.privateApiKey}`;
+    const yle2Url = `https://external.api.yle.fi/v1/programs/schedules.json?service=yle-tv2 \
+    &limit=20&${this.state.privateApiKey}`;
+    const areenaUrl = `https://external.api.yle.fi/v1/programs/schedules.json?service=yle-areena \
+    &mediaobject=video&limit=20&${this.state.privateApiKey}`;
+    const urlForAllChannels = `https://external.api.yle.fi/v1/programs/services.json?type=tvchannel&${
+      this.state.privateApiKey
+    }`;
     const proxyurl = "https://cors-anywhere.herokuapp.com/";
 
-    fetch(proxyurl + url) // work around for CORS problem.
+    fetch(proxyurl + areenaUrl) // work around for CORS problem.
       .then(response => response.json())
-      .then(contents => this.setState({ apiData: contents, isLoaded: true }))
+      .then(contents => this.setState({ apiData: contents }))
       .then(() => console.log(this.state.apiData))
       .catch(err =>
         console.log(
-          "Can’t access " + url + " response. Blocked by browser?.\n" + err
+          "Can’t access " +
+            areenaUrl +
+            " response. Blocked by browser?.\n" +
+            err
         )
       );
+
+    fetch(proxyurl + yle1Url)
+      .then(response => response.json())
+      .then(contents => this.setState({ yle1data: contents, isLoaded: true }))
+      .then(() => console.log(this.state.yle2data))
+      .catch(err => console.log(err));
+
+    fetch(proxyurl + urlForAllChannels)
+      .then(response => response.json())
+      .then(contents =>
+        contents.data.map(el => {
+          console.log(el);
+        })
+      )
+      .catch(err => console.log(err));
   }
 
   render() {
     return (
       <div className="App">
-        <header className="App-header">TV-Guide App</header>
-        <hr />
-        {this.state.isLoaded ? (
-          this.state.apiData.data.map((item, index) => (
-            <div key={index}>
-              {new Date(item.startTime).getHours() +
-                2 +
-                "." +
-                new Date(item.startTime).getMinutes()}
-              {" " + (item.content.title.fi || item.content.title.sv)} <hr />
-            </div>
-          ))
-        ) : (
-          <div>Awaiting API end point...</div>
-        )}
+        {
+          <Channel
+            title={"YLE2"}
+            url={
+              "https://external.api.yle.fi/v1/programs/schedules.json?service=yle-tv2&limit=5&"
+            }
+          />
+        }
+        <Channel
+          title={"YLE1"}
+          url={
+            "https://external.api.yle.fi/v1/programs/schedules.json?service=yle-tv1 \
+            &limit=5&"
+          }
+        />
+        <Channel
+          title={"YLE AREENA"}
+          url={
+            "https://external.api.yle.fi/v1/programs/schedules.json?service=yle-areena \
+            &limit=5&"
+          }
+        />
+        <Channel
+          title={"YLE TEEMA"}
+          url={
+            "https://external.api.yle.fi/v1/programs/schedules.json?service=yle-teema-fem \
+            &limit=5&"
+          }
+        />
       </div>
     );
   }
