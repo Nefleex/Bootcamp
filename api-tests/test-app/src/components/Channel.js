@@ -16,7 +16,7 @@ export default class Channel extends Component {
     fetch(proxyurl + url)
       .then(response => response.json())
       .then(contents => this.setState({ data: contents, isLoaded: true }))
-      .then(() => console.log(this.state.data))
+      // .then(() => console.log(this.state.data))
       .catch(err => console.log(err));
   }
   render() {
