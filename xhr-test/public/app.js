@@ -21,7 +21,7 @@ submit = () => {
       "Content-Type": "application/json"
     })
   })
-    .then(parsed => console.log(parsed))
+    .then(result => console.log(result))
     .catch(err => console.log(err));
 
   // Empty the fields
@@ -32,7 +32,6 @@ submit = () => {
 getPosts = () => {
   fetch("http://localhost:3000/")
     .then(res => res.json())
-
     .then(results =>
       results.forEach(element => {
         let list = document.createElement("li");
