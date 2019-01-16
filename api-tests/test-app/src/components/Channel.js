@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { resolve } from "q";
+import moment from "moment";
+import Programs from "./Programs";
 
 export default class Channel extends Component {
   constructor(props) {
@@ -8,9 +9,7 @@ export default class Channel extends Component {
       isLoaded: false,
       showExpired: false,
       allShows: "",
-      privateApiKey: process.env.REACT_APP_API_KEY,
-      freshShows: [],
-      allData: null
+      freshShows: []
     };
   }
 
@@ -19,15 +18,17 @@ export default class Channel extends Component {
   }
 
   componentWillMount() {
-    const url = `${this.props.url}${this.state.privateApiKey}`;
+    const url = `${this.props.url}${process.env.REACT_APP_API_KEY}`;
     const proxyurl = "https://cors-anywhere.herokuapp.com/";
 
     // Excluding past broadcasts.
     fetch(proxyurl + url)
       .then(response => response.json())
-      .then(contents => this.setState({ allShows: contents, isLoaded: true }))
+      .then(contents =>
+        this.setState({ allShows: contents.data, isLoaded: true })
+      )
       .then(() => {
-        this.state.allShows.data.map(item =>
+        this.state.allShows.map(item =>
           Date.parse(item.endTime) > Date.parse(new Date())
             ? this.setState({
                 freshShows: this.state.freshShows.concat(item)
@@ -42,41 +43,10 @@ export default class Channel extends Component {
     // &" ).then(response => response.json).then(contents => this.setState({}))
   }
 
-  stateTester = () => {
-    let { data } = this.state.allShows;
-    data.map(item => {
-      console.log(item.content.title.fi);
-    });
-    console.log(data[0].content.title.fi);
-    console.log(data[0].endTime);
-  };
-
-  //   updateState = (){
-  // return new Promise((resolve, reject) => {
-
-  // })
-  //   }
-
-  // App() {
-  //   return (
-  //     <div className="App">
-  //       {Object.entries(this.state.allShows).map(item => {
-  //         item.map(el => {
-  //           return <div>{el.data}</div>;
-  //         });
-  //       })}
-  //     </div>
-  //   );
-  // }
-
   render() {
-    let content = {};
-    let promise = new Promise((res, rej) => {
-      resolve(content);
-    });
     return (
       <div>
-        <button className="button" onClick={this.stateTester}>
+        <button className="button" onClick={this.testerFn}>
           Click me
         </button>
         <h1>{this.props.title}</h1>
@@ -85,8 +55,9 @@ export default class Channel extends Component {
         </div>
         <div>
           {this.state.isLoaded && this.state.showExpired
-            ? this.state.allShows.data.map((item, index) => (
+            ? this.state.allShows.map((item, index) => (
                 <div key={index}>
+                  <div>{moment(Date.parse(item.startTime)).format("HHMM")}</div>
                   {item.content.title.fi || item.content.title.sv}
                   <hr />
                 </div>
@@ -101,7 +72,7 @@ export default class Channel extends Component {
           ? this.state.freshShows.map((item, index) => (
               <div key={index}>
                 {" "}
-                <div>{Date.parse(item.startTime)}</div>
+                <div>{moment(Date.parse(item.startTime)).format("HHMM")}</div>
                 {item.content.title.fi || item.content.title.sv}
                 <hr />
               </div>
