@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import moment from "moment";
-import Programs from "./Programs";
+import Program from "./Program";
 
 export default class Channel extends Component {
   constructor(props) {
@@ -46,21 +46,24 @@ export default class Channel extends Component {
   render() {
     return (
       <div>
-        <button className="button" onClick={this.testerFn}>
-          Click me
-        </button>
         <h1>{this.props.title}</h1>
+        {}
+        <Program channelData={this.state.freshShows} />
         <div>
           {!this.state.isLoaded ? <div>Loading</div> : <div>Loaded</div>}{" "}
         </div>
         <div>
           {this.state.isLoaded && this.state.showExpired
-            ? this.state.allShows.map((item, index) => (
-                <div key={index}>
-                  <div>{moment(Date.parse(item.startTime)).format("HHMM")}</div>
-                  {item.content.title.fi || item.content.title.sv}
-                  <hr />
-                </div>
+            ? // ? this.state.allShows.map((item, index) => (
+              //     <div key={index}>
+              //       <div>{moment(Date.parse(item.startTime)).format("HHMM")}</div>
+              //       {item.content.title.fi || item.content.title.sv}
+              //       <hr />
+              //     </div>
+              //   ))
+
+              this.state.allShows.data.map((item, index) => (
+                <Program key={index} channelData={item} />
               ))
             : null}
         </div>

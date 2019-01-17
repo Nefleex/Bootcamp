@@ -18,6 +18,7 @@ class App extends Component {
   // TO-DO:
   // Styling
   // Abstract individual programs into components
+  // instead of mapping nested data from allshow/freshshows, map only the parent data
 
   toggleShows = () => {
     const btn = document.querySelector(".expired-shows");

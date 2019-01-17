@@ -9,14 +9,17 @@ export default class Program extends Component {
     };
   }
 
-  componentWillMount() {
+  componentWillReceiveProps() {
     this.setState({ shows: this.props.channelData });
   }
+
+  // componentWillMount() {
+  //   this.setState({ shows: this.props.channelData });
+  // }
   render() {
     return (
       <div>
         <div>
-          {this.props.program}
           {/* {this.state.shows.map((item, index) => (
             <React.Fragment key={index}>
               <div>{moment(Date.parse(item.startTime)).format("HHMM")} </div>
