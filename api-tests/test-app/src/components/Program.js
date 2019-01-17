@@ -5,30 +5,37 @@ export default class Program extends Component {
   constructor(props) {
     super();
     this.state = {
-      shows: ""
+      programData: "",
+      detailsToggled: false
     };
   }
 
-  componentWillReceiveProps() {
-    this.setState({ shows: this.props.channelData });
+  componentWillMount() {
+    this.setState({ programData: this.props.channelData });
   }
 
-  // componentWillMount() {
-  //   this.setState({ shows: this.props.channelData });
-  // }
+  toggleProgramDetails = () => {
+    console.log(this.state.programData);
+    this.setState({ detailsToggled: !this.state.detailsToggled });
+  };
+
   render() {
     return (
-      <div>
+      <div onClick={this.toggleProgramDetails}>
         <div>
-          {/* {this.state.shows.map((item, index) => (
-            <React.Fragment key={index}>
-              <div>{moment(Date.parse(item.startTime)).format("HHMM")} </div>
-              <div key={index}>
-                {item.content.title.fi || item.content.title.sv}
-                <hr />
-              </div>
-            </React.Fragment>
-          ))} */}
+          {moment(Date.parse(this.state.programData.startTime))
+            .startOf("minute")
+            .format("HH.MM")}
+        </div>
+        <div>
+          {this.state.programData.content.title.fi ||
+            this.state.programData.content.title.sv}
+          <br />
+          {this.state.detailsToggled
+            ? this.state.programData.content.description.fi ||
+              this.state.programData.content.description.sv
+            : null}
+          <hr />
         </div>
       </div>
     );

@@ -36,49 +36,27 @@ export default class Channel extends Component {
             : null
         );
       })
-      .then(x => console.log(x))
       .catch(err => console.log(err));
-
-    // fetch(proxyurl + "https://external.api.yle.fi/v1/programs/schedules.json?service=yle-tv1 \
-    // &" ).then(response => response.json).then(contents => this.setState({}))
   }
 
   render() {
     return (
       <div>
         <h1>{this.props.title}</h1>
-        {}
-        <Program channelData={this.state.freshShows} />
         <div>
           {!this.state.isLoaded ? <div>Loading</div> : <div>Loaded</div>}{" "}
         </div>
         <div>
           {this.state.isLoaded && this.state.showExpired
-            ? // ? this.state.allShows.map((item, index) => (
-              //     <div key={index}>
-              //       <div>{moment(Date.parse(item.startTime)).format("HHMM")}</div>
-              //       {item.content.title.fi || item.content.title.sv}
-              //       <hr />
-              //     </div>
-              //   ))
-
-              this.state.allShows.data.map((item, index) => (
+            ? this.state.allShows.map((item, index) => (
                 <Program key={index} channelData={item} />
               ))
             : null}
         </div>
-        {
-          /////////////////////////
-        }
 
         {this.state.isLoaded && !this.state.showExpired
           ? this.state.freshShows.map((item, index) => (
-              <div key={index}>
-                {" "}
-                <div>{moment(Date.parse(item.startTime)).format("HHMM")}</div>
-                {item.content.title.fi || item.content.title.sv}
-                <hr />
-              </div>
+              <Program key={index} channelData={item} />
             ))
           : null}
       </div>

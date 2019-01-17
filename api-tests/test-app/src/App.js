@@ -11,14 +11,13 @@ class App extends Component {
       showExpired: false,
       apiData: "",
       yle1data: "",
-      yle2data: "",
-      privateApiKey: process.env.REACT_APP_API_KEY
+      yle2data: ""
     };
   }
   // TO-DO:
   // Styling
-  // Abstract individual programs into components
-  // instead of mapping nested data from allshow/freshshows, map only the parent data
+  // Store tv show data from api to a database to have data on stand-by,
+  // fetch from said database instead of public api for faster load times???
 
   toggleShows = () => {
     const btn = document.querySelector(".expired-shows");
@@ -35,10 +34,7 @@ class App extends Component {
 
     const yle1Url = `https://external.api.yle.fi/v1/programs/schedules.json?service=yle-tv1 \
     &starttime=${now}&${process.env.REACT_APP_API_KEY}`;
-    // const yle2Url = `https://external.api.yle.fi/v1/programs/schedules.json?service=yle-tv2 \
-    // &limit=20&${this.state.privateApiKey}`;
-    // const areenaUrl = `https://external.api.yle.fi/v1/programs/schedules.json?service=yle-areena \
-    // &mediaobject=video&limit=20&${this.state.privateApiKey}`;
+    //
     // const urlForAllChannels = `https://external.api.yle.fi/v1/programs/services.json?type=tvchannel&${
     //   this.state.privateApiKey
     // }`
