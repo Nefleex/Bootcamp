@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import moment from "moment";
 import Program from "./Program";
+import "./Channel.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFeather } from "@fortawesome/free-solid-svg-icons";
 
 export default class Channel extends Component {
   constructor(props) {
@@ -42,23 +45,29 @@ export default class Channel extends Component {
   render() {
     return (
       <div>
-        <h1>{this.props.title}</h1>
-        <div>
-          {!this.state.isLoaded ? <div>Loading</div> : <div>Loaded</div>}{" "}
-        </div>
-        <div>
-          {this.state.isLoaded && this.state.showExpired
-            ? this.state.allShows.map((item, index) => (
+        <h1 className="channel-title">
+          <div className="title-icon">{this.props.titleIcon}</div>
+
+          {this.props.title}
+        </h1>
+        <div className="channel">
+          <div>
+            {!this.state.isLoaded ? <div>Loading</div> : <div>Loaded</div>}{" "}
+          </div>
+          <div>
+            {this.state.isLoaded && this.state.showExpired
+              ? this.state.allShows.map((item, index) => (
+                  <Program key={index} channelData={item} />
+                ))
+              : null}
+          </div>
+
+          {this.state.isLoaded && !this.state.showExpired
+            ? this.state.freshShows.map((item, index) => (
                 <Program key={index} channelData={item} />
               ))
             : null}
         </div>
-
-        {this.state.isLoaded && !this.state.showExpired
-          ? this.state.freshShows.map((item, index) => (
-              <Program key={index} channelData={item} />
-            ))
-          : null}
       </div>
     );
   }

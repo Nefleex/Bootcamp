@@ -1,7 +1,15 @@
 import React, { Component } from "react";
 import Channel from "./components/Channel";
+import Banner from "./components/Banner";
 import "./App.css";
 import moment from "moment";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faFeather,
+  faFeatherAlt,
+  faCube,
+  faCubes
+} from "@fortawesome/free-solid-svg-icons";
 
 class App extends Component {
   constructor() {
@@ -32,6 +40,13 @@ class App extends Component {
     const now = date.format("YYYY-MM-DDTHH:mm:ss.[0200]");
     console.log("Date " + now);
 
+    let tomorrow = new Date();
+    tomorrow.setHours(tomorrow.getHours() + 24);
+    tomorrow = moment(tomorrow);
+    tomorrow = tomorrow.format("YYYY-MM-DDTHH:mm:ss.[0200]");
+
+    console.log(tomorrow);
+
     const yle1Url = `https://external.api.yle.fi/v1/programs/schedules.json?service=yle-tv1 \
     &starttime=${now}&${process.env.REACT_APP_API_KEY}`;
     //
@@ -43,7 +58,7 @@ class App extends Component {
     fetch(proxyurl + yle1Url)
       .then(response => response.json())
       .then(contents => this.setState({ yle1data: contents, isLoaded: true }))
-      // .then(() => console.log(this.state.yle1data))
+      .then(() => console.log(this.state.yle1data))
       .catch(err => console.log(err));
 
     // fetch(proxyurl + urlForAllChannels)
@@ -59,18 +74,41 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <Banner />
         <button className="expired-shows" onClick={this.toggleShows}>
           Show Expired
         </button>
         <input type="checkbox" name="show-expired" value="" />
         <hr />
-        <div className="channels">
-          {/* <Channel
-            title={"YLE1 ALL"}
-            url={`https://external.api.yle.fi/v1/programs/schedules.json?service=yle-tv1 \
-              &starttime=${now}&limit=5&`}
-          /> */}
+        <div className="channels-main">
           <Channel
+            titleIcon={<FontAwesomeIcon icon={faFeather} />}
+            title={"CHANNEL 1"}
+            url={`https://external.api.yle.fi/v1/programs/schedules.json?service=yle-tv1&`}
+            isToggled={this.state.showExpired}
+          />
+          <Channel
+            titleIcon={<FontAwesomeIcon icon={faFeatherAlt} />}
+            title={"CHANNEL 2"}
+            url={`https://external.api.yle.fi/v1/programs/schedules.json?service=yle-tv2&`}
+            isToggled={this.state.showExpired}
+          />
+          <Channel
+            titleIcon={<FontAwesomeIcon icon={faCube} />}
+            title={"CHANNEL 3"}
+            url={`https://external.api.yle.fi/v1/programs/schedules.json?service=yle-areena&`}
+            isToggled={this.state.showExpired}
+          />
+
+          <Channel
+            titleIcon={<FontAwesomeIcon icon={faCubes} />}
+            title={"CHANNEL 4"}
+            url={`https://external.api.yle.fi/v1/programs/schedules.json?service=yle-teema-fem&`}
+            isToggled={this.state.showExpired}
+          />
+
+          <Channel
+            className="channel"
             title={"YLE1"}
             url={`https://external.api.yle.fi/v1/programs/schedules.json?service=yle-tv1&`}
             isToggled={this.state.showExpired}

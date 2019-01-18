@@ -1,0 +1,17 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+.channel {
+  background-color: #2d2f32;
+}
+.channel-title {
+  background-color: #2d2f32;
+  margin-bottom: 0.1em;
+  display: grid;
+  grid-template-columns: max-content auto;
+}
+.title-icon {
+  padding-left: 0.1em;
+  padding-right: 0.1em;
+}

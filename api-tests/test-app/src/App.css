@@ -1,5 +1,17 @@
-.channels {
+.channels-main {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  grid-gap: 1em;
+  grid-template-columns: repeat(4, minmax(100px, 250px));
+  grid-auto-rows: max-content;
+  grid-gap: 0.3em;
+  font-family: "Arial";
+  font-size: 14px;
+}
+
+body {
+  background-color: #131415;
+  color: white;
+}
+
+.channel {
+  background-color: #2d2f32;
 }
