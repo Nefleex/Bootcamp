@@ -2,7 +2,12 @@
   padding: 0;
   margin: 0;
 }
-.channel {
+
+.channel-main {
+  display: grid;
+  grid-template-rows: max-content auto;
+}
+.channel-content {
   background-color: #2d2f32;
 }
 .channel-title {
@@ -10,6 +15,7 @@
   margin-bottom: 0.1em;
   display: grid;
   grid-template-columns: max-content auto;
+  grid-template-columns: 1fr;
 }
 .title-icon {
   padding-left: 0.1em;

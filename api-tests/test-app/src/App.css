@@ -1,7 +1,7 @@
 .channels-main {
   display: grid;
-  grid-template-columns: repeat(4, minmax(100px, 250px));
-  grid-auto-rows: max-content;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto;
   grid-gap: 0.3em;
   font-family: "Arial";
   font-size: 14px;
@@ -12,6 +12,6 @@ body {
   color: white;
 }
 
-.channel {
-  background-color: #2d2f32;
+.channel-item {
+  height: 100%;
 }

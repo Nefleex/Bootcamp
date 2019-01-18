@@ -87,12 +87,14 @@ class App extends Component {
             url={`https://external.api.yle.fi/v1/programs/schedules.json?service=yle-tv1&`}
             isToggled={this.state.showExpired}
           />
+
           <Channel
             titleIcon={<FontAwesomeIcon icon={faFeatherAlt} />}
             title={"CHANNEL 2"}
             url={`https://external.api.yle.fi/v1/programs/schedules.json?service=yle-tv2&`}
             isToggled={this.state.showExpired}
           />
+
           <Channel
             titleIcon={<FontAwesomeIcon icon={faCube} />}
             title={"CHANNEL 3"}
@@ -103,29 +105,6 @@ class App extends Component {
           <Channel
             titleIcon={<FontAwesomeIcon icon={faCubes} />}
             title={"CHANNEL 4"}
-            url={`https://external.api.yle.fi/v1/programs/schedules.json?service=yle-teema-fem&`}
-            isToggled={this.state.showExpired}
-          />
-
-          <Channel
-            className="channel"
-            title={"YLE1"}
-            url={`https://external.api.yle.fi/v1/programs/schedules.json?service=yle-tv1&`}
-            isToggled={this.state.showExpired}
-          />
-
-          <Channel
-            title={"YLE2"}
-            url={`https://external.api.yle.fi/v1/programs/schedules.json?service=yle-tv2&`}
-            isToggled={this.state.showExpired}
-          />
-          <Channel
-            title={"YLE AREENA"}
-            url={`https://external.api.yle.fi/v1/programs/schedules.json?service=yle-areena&`}
-            isToggled={this.state.showExpired}
-          />
-          <Channel
-            title={"YLE TEEMA"}
             url={`https://external.api.yle.fi/v1/programs/schedules.json?service=yle-teema-fem&`}
             isToggled={this.state.showExpired}
           />

@@ -44,13 +44,13 @@ export default class Channel extends Component {
 
   render() {
     return (
-      <div>
+      <div className="channel-main">
         <h1 className="channel-title">
           <div className="title-icon">{this.props.titleIcon}</div>
 
           {this.props.title}
         </h1>
-        <div className="channel">
+        <div className="channel-content">
           <div>
             {!this.state.isLoaded ? <div>Loading</div> : <div>Loaded</div>}{" "}
           </div>
