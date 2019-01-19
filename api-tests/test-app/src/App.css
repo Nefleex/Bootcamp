@@ -1,6 +1,6 @@
 .channels-main {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, minmax(150px, 250px));
   grid-template-rows: auto;
   grid-gap: 0.3em;
   font-family: "Arial";
