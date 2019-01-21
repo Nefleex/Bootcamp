@@ -5,9 +5,10 @@
   grid-gap: 0.3em;
   font-family: "Arial";
   font-size: 14px;
+  justify-content: center;
 }
 
-body {
+.body {
   background-color: #131415;
   color: white;
 }

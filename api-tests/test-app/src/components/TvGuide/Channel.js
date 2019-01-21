@@ -1,9 +1,6 @@
 import React, { Component } from "react";
-import moment from "moment";
 import Program from "./Program";
 import "./Channel.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFeather } from "@fortawesome/free-solid-svg-icons";
 
 export default class Channel extends Component {
   constructor(props) {
