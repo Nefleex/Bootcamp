@@ -87,8 +87,8 @@ class TvGuide extends Component {
       console.log("Decremented from state");
     } else if (e.target.name === "next") {
       this.setState({
-        minDate: this.state.minDate + 1,
-        maxDate: this.state.maxDate + 1
+        maxDate: this.state.maxDate + 1,
+        minDate: this.state.minDate + 1
       });
       console.log("Incremented from state");
     }
@@ -99,7 +99,8 @@ class TvGuide extends Component {
   render() {
     let t = new Date();
     t = moment(t);
-
+    let t1 = new Date();
+    t1 = moment(t1);
     return (
       <div className="body">
         <Banner />
@@ -128,7 +129,7 @@ class TvGuide extends Component {
               .add(`${this.state.minDate}`, "d")
               .format("DD")}T06%3A00%3A00.000%2B0200&endtime=${t.format(
               "YYYY"
-            )}-${t.format("MM")}-${t
+            )}-${t.format("MM")}-${t1
               .add(`${this.state.maxDate}`, "d")
               .format("DD")}T06%3A00%3A00.000%2B0200&`}
             isToggled={this.state.showExpired}
