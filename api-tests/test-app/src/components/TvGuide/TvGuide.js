@@ -20,7 +20,9 @@ class TvGuide extends Component {
       showExpired: false,
       apiData: "",
       yle1data: "",
-      yle2data: ""
+      yle2data: "",
+      minDate: 0,
+      maxDate: 1
     };
   }
   // TO-DO:
@@ -48,12 +50,26 @@ class TvGuide extends Component {
 
     console.log(tomorrow);
 
-    const yle1Url = `https://external.api.yle.fi/v1/programs/schedules.json?service=yle-tv1 \
-    &starttime=${now}&${process.env.REACT_APP_API_KEY}`;
-    //
-    // const urlForAllChannels = `https://external.api.yle.fi/v1/programs/services.json?type=tvchannel&${
-    //   this.state.privateApiKey
-    // }`
+    let t = new Date();
+    // console.log(new Date(t.getFullYear(), t.getMonth() + 1, 0, 23, 59, 59));
+    t = moment(t);
+    console.log(t.format("dd-mm"));
+    let tomor = t.add(11, "d");
+    console.log(tomor.format("DD-MM"));
+
+    // const yle1Url = `https://external.api.yle.fi/v1/programs/schedules.json?service=yle-tv1 \
+    // &starttime=${now}&endTime=${tomorrow}${process.env.REACT_APP_API_KEY}`;
+    const yle1Url = `https://external.api.yle.fi/v1/programs/schedules.json?&service=yle-tv1&starttime=${t.format(
+      "YYYY"
+    )}-${t.format("MM")}-${t
+      .add(0, "d")
+      .format("DD")}T06%3A00%3A00.000%2B0200&endtime=${t.format(
+      "YYYY"
+    )}-${t.format("MM")}-${t
+      .add(1, "d")
+      .format("DD")}T06%3A00%3A00.000%2B0200&${process.env.REACT_APP_API_KEY}`;
+
+    // const urlForAllChannels = `https://external.api.yle.fi/v1/programs/services.json?type=tvchannel&$
     const proxyurl = "https://cors-anywhere.herokuapp.com/";
 
     fetch(proxyurl + yle1Url)
@@ -61,18 +77,29 @@ class TvGuide extends Component {
       .then(contents => this.setState({ yle1data: contents, isLoaded: true }))
       .then(() => console.log(this.state.yle1data))
       .catch(err => console.log(err));
-
-    // fetch(proxyurl + urlForAllChannels)
-    //   .then(response => response.json())
-    //   .then(contents =>
-    //     contents.data.map(el => {
-    //       console.log(el);
-    //     })
-    //   )
-    //   .catch(err => console.log(err));
   }
+  switchDate = e => {
+    if (e.target.name === "previous") {
+      this.setState({
+        minDate: this.state.minDate - 1,
+        maxDate: this.state.maxDate - 1
+      });
+      console.log("Decremented from state");
+    } else if (e.target.name === "next") {
+      this.setState({
+        minDate: this.state.minDate + 1,
+        maxDate: this.state.maxDate + 1
+      });
+      console.log("Incremented from state");
+    }
+  };
+
+  // `https://external.api.yle.fi/v1/programs/schedules.json?${process.env.REACT_APP_API_KEY}&service=yle-tv1&starttime=2019-01-23T12%3A00%3A00.000%2B0200&endtime=2019-01-23T14%3A00%3A00.000%2B0200`
 
   render() {
+    let t = new Date();
+    t = moment(t);
+
     return (
       <div className="body">
         <Banner />
@@ -81,11 +108,29 @@ class TvGuide extends Component {
         </button>
         <input type="checkbox" name="show-expired" value="" />
         <hr />
+        <button name="previous" onClick={this.switchDate}>
+          Previous
+        </button>
+        <button name="next" onClick={this.switchDate}>
+          Next
+        </button>
+        <div>
+          {this.state.minDate} : {this.state.maxDate}
+        </div>
+        <hr />
         <div className="channels-main">
           <Channel
             titleIcon={<FontAwesomeIcon icon={faFeather} />}
             title={"CHANNEL 1"}
-            url={`https://external.api.yle.fi/v1/programs/schedules.json?service=yle-tv1&`}
+            url={`https://external.api.yle.fi/v1/programs/schedules.json?&service=yle-tv1&starttime=${t.format(
+              "YYYY"
+            )}-${t.format("MM")}-${t
+              .add(`${this.state.minDate}`, "d")
+              .format("DD")}T06%3A00%3A00.000%2B0200&endtime=${t.format(
+              "YYYY"
+            )}-${t.format("MM")}-${t
+              .add(`${this.state.maxDate}`, "d")
+              .format("DD")}T06%3A00%3A00.000%2B0200&`}
             isToggled={this.state.showExpired}
           />
 

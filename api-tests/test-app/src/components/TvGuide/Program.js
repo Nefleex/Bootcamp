@@ -16,7 +16,6 @@ export default class Program extends Component {
   }
 
   toggleProgramDetails = () => {
-    console.log(this.state.programData);
     this.setState({ detailsToggled: !this.state.detailsToggled });
   };
 

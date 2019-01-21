@@ -4,25 +4,27 @@ import "./Channel.css";
 
 export default class Channel extends Component {
   constructor(props) {
-    super();
+    super(props);
     this.state = {
       isLoaded: false,
       showExpired: false,
       allShows: "",
-      freshShows: []
+      freshShows: [],
+      url: this.props.url
     };
   }
 
   componentWillReceiveProps(props) {
     this.setState({ showExpired: props.isToggled });
+    this.setState({ url: props.url });
   }
 
-  componentWillMount() {
-    const url = `${this.props.url}${process.env.REACT_APP_API_KEY}`;
+  componentDidMount() {
     const proxyurl = "https://cors-anywhere.herokuapp.com/";
+    this.setState({ url: `${this.props.url}${process.env.REACT_APP_API_KEY}` });
 
     // Excluding past broadcasts.
-    fetch(proxyurl + url)
+    fetch(proxyurl + this.state.url + process.env.REACT_APP_API_KEY)
       .then(response => response.json())
       .then(contents =>
         this.setState({ allShows: contents.data, isLoaded: true })
@@ -31,13 +33,22 @@ export default class Channel extends Component {
         this.state.allShows.map(item =>
           Date.parse(item.endTime) > Date.parse(new Date())
             ? this.setState({
-                freshShows: this.state.freshShows.concat(item)
+                freshShows: [...this.state.freshShows, item]
               })
             : null
         );
       })
       .catch(err => console.log(err));
   }
+
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   if (this.props.url !== nextProps.url) {
+  //     return true;
+  //   }
+  //   if (this.state.allShows !== nextState.allShows) {
+  //     return true;
+  //   }
+  // }
 
   render() {
     return (
