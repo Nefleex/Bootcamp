@@ -14,12 +14,22 @@ export default class Channel extends Component {
     };
   }
 
-  componentWillReceiveProps(props) {
+  componentWillReceiveProps(props, nextProps) {
     this.setState({ showExpired: props.isToggled });
-    this.setState({ url: props.url });
+    if (nextProps.url !== this.props.url) {
+      this.setState({ url: props.url });
+    }
   }
 
-  componentDidMount() {
+  // shouldComponentUpdate(nextProps, nextState) {
+  //   if (this.props.url !== nextProps.url) {
+  //     return true;
+  //   }
+  //   if (this.state.url !== nextState.url) {
+  //     return true;
+  //   }
+  // }
+  fetchData = () => {
     const proxyurl = "https://cors-anywhere.herokuapp.com/";
     this.setState({ url: `${this.props.url}${process.env.REACT_APP_API_KEY}` });
 
@@ -39,6 +49,16 @@ export default class Channel extends Component {
         );
       })
       .catch(err => console.log(err));
+  };
+  // componentDidUpdate(prevProps) {
+  //   // Typical usage (don't forget to compare props):
+  //   if (this.props.url !== prevProps.url) {
+  //     this.fetchData(this.props.url);
+  //   }
+  // }
+
+  componentDidMount() {
+    this.fetchData();
   }
 
   // shouldComponentUpdate(nextProps, nextState) {

@@ -94,13 +94,26 @@ class TvGuide extends Component {
     }
   };
 
+  formatTime = (offset1, offset2) => {
+    let t = new Date();
+    let t1 = new Date();
+    t = moment(t);
+    t1 = moment(t1);
+    if (offset1 >= -1) {
+      return `starttime=${t.format("YYYY")}-${t.format("MM")}-${t
+        .add(`${offset1}`, "d")
+        .format("DD")}T06%3A00%3A00.000%2B0200&endtime=${t.format(
+        "YYYY"
+      )}-${t.format("MM")}-${t1
+        .add(`${offset2}`, "d")
+        .format("DD")}T06%3A00%3A00.000%2B0200&`;
+    } else {
+    }
+  };
+
   // `https://external.api.yle.fi/v1/programs/schedules.json?${process.env.REACT_APP_API_KEY}&service=yle-tv1&starttime=2019-01-23T12%3A00%3A00.000%2B0200&endtime=2019-01-23T14%3A00%3A00.000%2B0200`
 
   render() {
-    let t = new Date();
-    t = moment(t);
-    let t1 = new Date();
-    t1 = moment(t1);
     return (
       <div className="body">
         <Banner />
@@ -123,22 +136,20 @@ class TvGuide extends Component {
           <Channel
             titleIcon={<FontAwesomeIcon icon={faFeather} />}
             title={"CHANNEL 1"}
-            url={`https://external.api.yle.fi/v1/programs/schedules.json?&service=yle-tv1&starttime=${t.format(
-              "YYYY"
-            )}-${t.format("MM")}-${t
-              .add(`${this.state.minDate}`, "d")
-              .format("DD")}T06%3A00%3A00.000%2B0200&endtime=${t.format(
-              "YYYY"
-            )}-${t.format("MM")}-${t1
-              .add(`${this.state.maxDate}`, "d")
-              .format("DD")}T06%3A00%3A00.000%2B0200&`}
+            url={`https://external.api.yle.fi/v1/programs/schedules.json?&service=yle-tv1&${this.formatTime(
+              this.state.minDate,
+              this.state.maxDate
+            )}`}
             isToggled={this.state.showExpired}
           />
 
-          <Channel
+          {/* <Channel
             titleIcon={<FontAwesomeIcon icon={faFeatherAlt} />}
             title={"CHANNEL 2"}
-            url={`https://external.api.yle.fi/v1/programs/schedules.json?service=yle-tv2&`}
+            url={`https://external.api.yle.fi/v1/programs/schedules.json?service=yle-tv2&${this.formatTime(
+              this.state.minDate,
+              this.state.maxDate
+            )}`}
             isToggled={this.state.showExpired}
           />
 
@@ -154,7 +165,7 @@ class TvGuide extends Component {
             title={"CHANNEL 4"}
             url={`https://external.api.yle.fi/v1/programs/schedules.json?service=yle-teema-fem&`}
             isToggled={this.state.showExpired}
-          />
+          /> */}
         </div>
         <Footer />
       </div>
