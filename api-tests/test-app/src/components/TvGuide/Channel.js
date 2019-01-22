@@ -29,14 +29,18 @@ export default class Channel extends Component {
   }
   fetchData = () => {
     const proxyurl = "https://cors-anywhere.herokuapp.com/";
-    this.setState({ url: `${this.props.url}` });
-
+    this.setState({
+      url: `${this.props.url}`,
+      isLoaded: false,
+      freshShows: []
+    });
     // Excluding past broadcasts.
     fetch(proxyurl + this.state.url + process.env.REACT_APP_API_KEY)
       .then(response => response.json())
       .then(contents =>
         this.setState({ allShows: contents.data, isLoaded: true })
       )
+
       .then(() => {
         this.state.allShows.map(item =>
           Date.parse(item.endTime) > Date.parse(new Date())

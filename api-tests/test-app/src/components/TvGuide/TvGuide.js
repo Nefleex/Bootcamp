@@ -143,7 +143,7 @@ class TvGuide extends Component {
             isToggled={this.state.showExpired}
           />
 
-          {/* <Channel
+          <Channel
             titleIcon={<FontAwesomeIcon icon={faFeatherAlt} />}
             title={"CHANNEL 2"}
             url={`https://external.api.yle.fi/v1/programs/schedules.json?service=yle-tv2&${this.formatTime(
@@ -154,18 +154,23 @@ class TvGuide extends Component {
           />
 
           <Channel
-            titleIcon={<FontAwesomeIcon icon={faCube} />}
-            title={"CHANNEL 3"}
-            url={`https://external.api.yle.fi/v1/programs/schedules.json?service=yle-areena&`}
+            titleIcon={<FontAwesomeIcon icon={faCubes} />}
+            title={"TEEMA FEM"}
+            url={`https://external.api.yle.fi/v1/programs/schedules.json?service=yle-teema-fem&${this.formatTime(
+              this.state.minDate,
+              this.state.maxDate
+            )}`}
             isToggled={this.state.showExpired}
           />
-
           <Channel
-            titleIcon={<FontAwesomeIcon icon={faCubes} />}
-            title={"CHANNEL 4"}
-            url={`https://external.api.yle.fi/v1/programs/schedules.json?service=yle-teema-fem&`}
+            titleIcon={<FontAwesomeIcon icon={faCube} />}
+            title={"AREENA"}
+            url={`https://external.api.yle.fi/v1/programs/schedules.json?service=yle-areena&${this.formatTime(
+              this.state.minDate,
+              this.state.maxDate
+            )}`}
             isToggled={this.state.showExpired}
-          /> */}
+          />
         </div>
         <Footer />
       </div>
