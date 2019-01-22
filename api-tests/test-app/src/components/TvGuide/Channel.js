@@ -10,28 +10,26 @@ export default class Channel extends Component {
       showExpired: false,
       allShows: "",
       freshShows: [],
-      url: this.props.url
+      url: this.props.url,
+      loadError: ""
     };
   }
 
   componentWillReceiveProps(props, nextProps) {
     this.setState({ showExpired: props.isToggled });
     if (nextProps.url !== this.props.url) {
-      this.setState({ url: props.url });
+      // this.setState({ url: props.url });
     }
   }
 
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   if (this.props.url !== nextProps.url) {
-  //     return true;
-  //   }
-  //   if (this.state.url !== nextState.url) {
-  //     return true;
-  //   }
-  // }
+  componentDidUpdate(prevProps) {
+    if (this.props.url !== prevProps.url) {
+      this.fetchData();
+    }
+  }
   fetchData = () => {
     const proxyurl = "https://cors-anywhere.herokuapp.com/";
-    this.setState({ url: `${this.props.url}${process.env.REACT_APP_API_KEY}` });
+    this.setState({ url: `${this.props.url}` });
 
     // Excluding past broadcasts.
     fetch(proxyurl + this.state.url + process.env.REACT_APP_API_KEY)
