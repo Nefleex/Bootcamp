@@ -52,6 +52,42 @@ export default class Channel extends Component {
       })
       .catch(err => console.log(err));
   };
+
+  /* 
+
+  Promise.all([
+      fetch(
+        `${proxyurl}https://external.api.yle.fi/v1/programs/schedules.json?${
+          process.env.REACT_APP_API_KEY
+        }&service=yle-tv1&starttime=2019-01-24T12%3A00%3A00.000%2B0200&endtime=2019-01-25T14%3A00%3A00.000%2B0200`
+      ),
+      fetch(
+        `${proxyurl}https://external.api.yle.fi/v1/programs/schedules.json?${
+          process.env.REACT_APP_API_KEY
+        }&service=yle-tv1&starttime=2019-01-25T12%3A00%3A00.000%2B0200&endtime=2019-01-26T14%3A00%3A00.000%2B0200`
+      )
+    ])
+      .then(([res1, res2]) => Promise.all([res1.json(), res2.json()]))
+      .then(([data1, data2]) =>
+        this.setState({
+          allShows: [...this.state.allShows, ...data1.data, ...data2.data],
+          isLoaded: true
+        })
+      )
+      // .then(() => {
+      //   this.state.allShows.map(item =>
+      //     Date.parse(item.endTime) > Date.parse(new Date())
+      //       ? this.setState({
+      //           freshShows: [...this.state.freshShows, item]
+      //         })
+      //       : null
+      //   );
+      // })
+      .catch(err => console.log(err));
+  };
+
+  */
+
   // componentDidUpdate(prevProps) {
   //   // Typical usage (don't forget to compare props):
   //   if (this.props.url !== prevProps.url) {

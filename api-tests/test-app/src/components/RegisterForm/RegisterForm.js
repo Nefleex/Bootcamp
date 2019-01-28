@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Button, MuiThemeProvider, TextField } from "@material-ui/core";
+import StatusDisplayer from "./StatusDisplayer";
 import "./RegisterForm.css";
 
 export default class RegisterForm extends Component {
@@ -7,7 +8,8 @@ export default class RegisterForm extends Component {
     super();
     this.state = {
       email: "",
-      password: ""
+      password: "",
+      responseText: ""
     };
   }
   onChange = e => {
@@ -17,14 +19,15 @@ export default class RegisterForm extends Component {
   submit = () => {
     const data = { email: this.state.email, password: this.state.password };
     const json = JSON.stringify(data);
-    fetch("localhost:3000", {
+    fetch("http://localhost:3000/users/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
       body: json
     })
-      .then(response => response.json())
+      .then(response => response.text())
+      .then(text => this.setState({ responseText: text }))
       .catch(err => console.log(err));
   };
 
@@ -49,6 +52,7 @@ export default class RegisterForm extends Component {
           />
 
           <Button onClick={this.submit}>Click</Button>
+          <StatusDisplayer text={this.state.responseText} />
         </MuiThemeProvider>
       </div>
     );
