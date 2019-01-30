@@ -9,16 +9,15 @@ const bodyParser = require("body-parser");
 const users = require("./routes/users");
 
 const cors = require("cors");
+require("dotenv").config();
 
 // PROMISE.ALL ???
 
 // Check that index.js has been run with API_KEY set
-if (process.env.API_KEY) {
-  console.log("Api key has been set, proceeding...");
+if (process.env.API_KEY && process.env.JWT_PRIVATE_KEY) {
+  console.log("Api key and JWT Secret have been set, proceeding...");
 } else {
-  throw new Error(
-    "API_KEY undefined. Set environment variable 'API_KEY' on next start up"
-  );
+  throw new Error("Set environment variables on next start up");
   process.exit(1);
 }
 
