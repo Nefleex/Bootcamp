@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Channel from "./Channel";
 import Banner from "./Banner";
 import Footer from "./Footer";
+import TestChannel from "./TestChannel";
 import "./TvGuide.css";
 import moment from "moment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -21,8 +22,8 @@ class TvGuide extends Component {
       apiData: "",
       yle1data: "",
       yle2data: "",
-      minDate: 0,
-      maxDate: 1
+      minDate: -2,
+      maxDate: -1
     };
   }
   // TO-DO:
@@ -80,17 +81,27 @@ class TvGuide extends Component {
   }
   switchDate = e => {
     if (e.target.name === "previous") {
-      this.setState({
-        minDate: this.state.minDate - 1,
-        maxDate: this.state.maxDate - 1
-      });
-      console.log("Decremented from state");
+      this.setState(
+        {
+          minDate: this.state.minDate - 1,
+          maxDate: this.state.maxDate - 1
+        },
+        function() {
+          console.log(this.state.minDate);
+          console.log(this.state.maxDate);
+        }
+      );
     } else if (e.target.name === "next") {
-      this.setState({
-        maxDate: this.state.maxDate + 1,
-        minDate: this.state.minDate + 1
-      });
-      console.log("Incremented from state");
+      this.setState(
+        {
+          maxDate: this.state.maxDate + 1,
+          minDate: this.state.minDate + 1
+        },
+        function() {
+          console.log(this.state.minDate);
+          console.log(this.state.maxDate);
+        }
+      );
     }
   };
 
@@ -100,14 +111,11 @@ class TvGuide extends Component {
     t = moment(t);
     t1 = moment(t1);
     if (offset1 >= -1) {
-      return `starttime=${t.format("YYYY")}-${t.format("MM")}-${t
+      return `startDate=${t.format("YYYY")}-${t.format("MM")}-${t
         .add(`${offset1}`, "d")
-        .format("DD")}T06%3A00%3A00.000%2B0200&endtime=${t.format(
-        "YYYY"
-      )}-${t.format("MM")}-${t1
+        .format("DD")}&endDate=${t.format("YYYY")}-${t.format("MM")}-${t1
         .add(`${offset2}`, "d")
-        .format("DD")}T06%3A00%3A00.000%2B0200&`;
-    } else {
+        .format("DD")}`;
     }
   };
 
@@ -133,7 +141,14 @@ class TvGuide extends Component {
         </div>
         <hr />
         <div className="channels-main">
-          <Channel
+          <TestChannel
+            titleIcon={<FontAwesomeIcon icon={faFeather} />}
+            title={"TEST 1"}
+            url={`http://localhost:3000/api/shows?startDate=2019-01-28&endDate=2019-01-29&channel=yle-tv1`}
+            isToggled={this.state.showExpired}
+          />
+
+          {/* <Channel
             titleIcon={<FontAwesomeIcon icon={faFeather} />}
             title={"CHANNEL 1"}
             url={`https://external.api.yle.fi/v1/programs/schedules.json?&service=yle-tv1&${this.formatTime(
@@ -170,7 +185,7 @@ class TvGuide extends Component {
               this.state.maxDate
             )}`}
             isToggled={this.state.showExpired}
-          />
+          /> */}
         </div>
         <Footer />
       </div>
