@@ -124,6 +124,10 @@ class TvGuide extends Component {
   // `https://external.api.yle.fi/v1/programs/schedules.json?${process.env.REACT_APP_API_KEY}&service=yle-tv1&starttime=2019-01-23T12%3A00%3A00.000%2B0200&endtime=2019-01-23T14%3A00%3A00.000%2B0200`
 
   render() {
+    const testUrl = `http://localhost:3000/api/shows?${this.formatTime(
+      0,
+      7
+    )}&channel=yle-tv1`;
     return (
       <div className="body">
         <Banner />
@@ -146,7 +150,7 @@ class TvGuide extends Component {
           <TestChannel
             titleIcon={<FontAwesomeIcon icon={faFeather} />}
             title={"TEST 1"}
-            url={`http://localhost:3000/api/shows?startDate=2019-02-01&endDate=2019-02-05&channel=yle-tv1`}
+            url={testUrl}
             isToggled={this.state.showExpired}
           />
 

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Program from "./Program";
+import moment from "moment";
 import "./Channel.css";
 
 export default class TestChannel extends Component {
@@ -9,11 +10,45 @@ export default class TestChannel extends Component {
       isLoaded: false,
       showExpired: false,
       allShows: "",
-      freshShows: [],
       url: this.props.url,
-      loadError: ""
+      loadError: "",
+      dateRange: [0, 1],
+      currentDayShows: []
+    };
+
+    Date.prototype.addDays = function(days) {
+      let date = new Date(this.valueOf());
+      date.setDate(date.getDate() + days);
+      return date;
     };
   }
+
+  formatTime = (offset1, offset2) => {
+    let t1 = new Date();
+    let t2 = new Date();
+    t1 = moment(t1);
+    t2 = moment(t2);
+    t1 = t1.add(offset1, "d").format("YYYY-DD-MM");
+    t2 = t2.add(offset2, "d").format("YYYY-DD-MM");
+    return `startDate=${t1}&endDate=${t2}`;
+  };
+
+  formatTimev2 = (offset1, offset2) => {
+    let t = new Date();
+    let t1 = new Date();
+    t = moment(t);
+    t1 = moment(t1);
+    if (offset1 >= -1) {
+      return `starttime=${t.format("YYYY")}-${t.format("MM")}-${t
+        .add(`${offset1}`, "d")
+        .format("DD")}T06%3A00%3A00.000%2B0200&endtime=${t.format(
+        "YYYY"
+      )}-${t.format("MM")}-${t1
+        .add(`${offset2}`, "d")
+        .format("DD")}T06%3A00%3A00.000%2B0200&`;
+    } else {
+    }
+  };
 
   componentWillReceiveProps(props, nextProps) {
     this.setState({ showExpired: props.isToggled });
@@ -38,17 +73,39 @@ export default class TestChannel extends Component {
     fetch(this.state.url)
       .then(response => response.json())
       .then(contents => this.setState({ allShows: contents, isLoaded: true }))
+      .then(() => {
+        console.log("Mapping");
+        let d1 = new Date().addDays(1);
+        let d = new Date();
+        d1 = moment(d1).format("YYYYDDMM");
+        d = moment(d).format("YYYYDDMM");
+        d1 = `${d1}060000`;
+        d = `${d}060000`;
 
-      //   .then(() => {
-      //     this.state.allShows.map(item =>
-      //       Date.parse(item.endTime) > Date.parse(new Date())
-      //         ? this.setState({
-      //             freshShows: [...this.state.freshShows, item]
-      //           })
-      //         : null
-      //     );
-      //   })
+        console.log(d1);
+        console.log(d);
+        this.state.allShows.map(item => {
+          let time = moment(item.startTime).format("YYYYDDMMHHMMSS");
+
+          if (item.startTime <= d && item.endTime >= d1) {
+            console.log(time);
+            this.setState({
+              currentDayShows: [...this.state.currentDayShows, item]
+            });
+          }
+        });
+      })
       .catch(err => console.log(err));
+
+    //   .then(() => {
+    //     this.state.allShows.map(item =>
+    //       Date.parse(item.endTime) > Date.parse(new Date())
+    //         ? this.setState({
+    //             freshShows: [...this.state.freshShows, item]
+    //           })
+    //         : null
+    //     );
+    //   })
   };
 
   //   formatTime = (offset1, offset2) => {
@@ -137,7 +194,7 @@ export default class TestChannel extends Component {
           <div>
             {this.state.isLoaded
               ? // && this.state.showExpired
-                this.state.allShows.map((item, index) => (
+                this.state.currentDayShows.map((item, index) => (
                   <Program key={index} channelData={item} />
                 ))
               : null}
