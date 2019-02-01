@@ -115,6 +115,7 @@ export default class Channel extends Component {
           <div className="title-icon">{this.props.titleIcon}</div>
 
           {this.props.title}
+          {new Date().toLocaleString}
         </h1>
         <div className="channel-content">
           <div>

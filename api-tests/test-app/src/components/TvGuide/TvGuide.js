@@ -22,8 +22,8 @@ class TvGuide extends Component {
       apiData: "",
       yle1data: "",
       yle2data: "",
-      minDate: -2,
-      maxDate: -1
+      minDate: 0,
+      maxDate: 1
     };
   }
   // TO-DO:
@@ -54,9 +54,9 @@ class TvGuide extends Component {
     let t = new Date();
     // console.log(new Date(t.getFullYear(), t.getMonth() + 1, 0, 23, 59, 59));
     t = moment(t);
-    console.log(t.format("dd-mm"));
+
     let tomor = t.add(11, "d");
-    console.log(tomor.format("DD-MM"));
+    console.log(tomor.format("YYYY-DD-MM"));
 
     // const yle1Url = `https://external.api.yle.fi/v1/programs/schedules.json?service=yle-tv1 \
     // &starttime=${now}&endTime=${tomorrow}${process.env.REACT_APP_API_KEY}`;
@@ -69,6 +69,12 @@ class TvGuide extends Component {
     )}-${t.format("MM")}-${t
       .add(1, "d")
       .format("DD")}T06%3A00%3A00.000%2B0200&${process.env.REACT_APP_API_KEY}`;
+
+    const testUrl = `http://localhost:3000/api/shows?${this.formatTime(
+      this.state.minDate,
+      this.state.maxDate
+    )}&channel=yle-tv1`;
+    console.log(testUrl);
 
     // const urlForAllChannels = `https://external.api.yle.fi/v1/programs/services.json?type=tvchannel&$
     const proxyurl = "https://cors-anywhere.herokuapp.com/";
@@ -106,17 +112,13 @@ class TvGuide extends Component {
   };
 
   formatTime = (offset1, offset2) => {
-    let t = new Date();
     let t1 = new Date();
-    t = moment(t);
+    let t2 = new Date();
     t1 = moment(t1);
-    if (offset1 >= -1) {
-      return `startDate=${t.format("YYYY")}-${t.format("MM")}-${t
-        .add(`${offset1}`, "d")
-        .format("DD")}&endDate=${t.format("YYYY")}-${t.format("MM")}-${t1
-        .add(`${offset2}`, "d")
-        .format("DD")}`;
-    }
+    t2 = moment(t2);
+    t1 = t1.add(offset1, "d").format("YYYY-DD-MM");
+    t2 = t2.add(offset2, "d").format("YYYY-DD-MM");
+    return `startDate=${t1}&endDate=${t2}`;
   };
 
   // `https://external.api.yle.fi/v1/programs/schedules.json?${process.env.REACT_APP_API_KEY}&service=yle-tv1&starttime=2019-01-23T12%3A00%3A00.000%2B0200&endtime=2019-01-23T14%3A00%3A00.000%2B0200`
@@ -144,7 +146,7 @@ class TvGuide extends Component {
           <TestChannel
             titleIcon={<FontAwesomeIcon icon={faFeather} />}
             title={"TEST 1"}
-            url={`http://localhost:3000/api/shows?startDate=2019-01-28&endDate=2019-01-29&channel=yle-tv1`}
+            url={`http://localhost:3000/api/shows?startDate=2019-02-01&endDate=2019-02-05&channel=yle-tv1`}
             isToggled={this.state.showExpired}
           />
 
