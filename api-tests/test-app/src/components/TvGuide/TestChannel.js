@@ -51,17 +51,49 @@ export default class TestChannel extends Component {
   };
 
   componentWillReceiveProps(props, nextProps) {
-    this.setState({ showExpired: props.isToggled });
+    this.setState({
+      showExpired: props.isToggled,
+      dateRange: [props.startDate, props.endDate]
+    });
     if (nextProps.url !== this.props.url) {
-      // this.setState({ url: props.url });
+      this.setState({ dateRange: [props.startDate, props.endDate] });
     }
   }
 
   componentDidUpdate(prevProps) {
-    if (this.props.url !== prevProps.url) {
+    if (this.props !== prevProps) {
       this.fetchData();
+      this.setState({
+        dateRange: [this.props.startDate, this.props.endDate]
+      });
     }
   }
+
+  parseCurrentDayShows = (offset1, offset2) => {
+    console.log("Mapping");
+    let d1 = new Date();
+    let d = new Date();
+    d1 = moment(d1)
+      .add(offset2, "d")
+      .format("YYYYDDMM");
+    d = moment(d)
+      .add(offset1, "d")
+      .format("YYYYDDMM");
+    d1 = `${d1}060000`;
+    d = `${d}060000`;
+    if (this.state.currentDayShows !== [])
+      this.setState({ currentDayShows: [] });
+    this.state.allShows.map(item => {
+      let time = moment(item.startTime).format("YYYYDDMMHHMMSS");
+
+      if (time >= d && time <= d1) {
+        this.setState({
+          currentDayShows: [...this.state.currentDayShows, item]
+        });
+      }
+    });
+  };
+
   fetchData = () => {
     const proxyurl = "https://cors-anywhere.herokuapp.com/";
     this.setState({
@@ -73,28 +105,12 @@ export default class TestChannel extends Component {
     fetch(this.state.url)
       .then(response => response.json())
       .then(contents => this.setState({ allShows: contents, isLoaded: true }))
-      .then(() => {
-        console.log("Mapping");
-        let d1 = new Date().addDays(1);
-        let d = new Date();
-        d1 = moment(d1).format("YYYYDDMM");
-        d = moment(d).format("YYYYDDMM");
-        d1 = `${d1}060000`;
-        d = `${d}060000`;
-
-        console.log(d1);
-        console.log(d);
-        this.state.allShows.map(item => {
-          let time = moment(item.startTime).format("YYYYDDMMHHMMSS");
-
-          if (item.startTime <= d && item.endTime >= d1) {
-            console.log(time);
-            this.setState({
-              currentDayShows: [...this.state.currentDayShows, item]
-            });
-          }
-        });
-      })
+      .then(() =>
+        this.parseCurrentDayShows(
+          this.state.dateRange[0],
+          this.state.dateRange[1]
+        )
+      )
       .catch(err => console.log(err));
 
     //   .then(() => {

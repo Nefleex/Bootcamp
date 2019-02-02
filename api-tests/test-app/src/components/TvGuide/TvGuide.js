@@ -152,6 +152,8 @@ class TvGuide extends Component {
             title={"TEST 1"}
             url={testUrl}
             isToggled={this.state.showExpired}
+            startDate={this.state.minDate}
+            endDate={this.state.maxDate}
           />
 
           {/* <Channel
