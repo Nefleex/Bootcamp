@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Button, MuiThemeProvider, TextField } from "@material-ui/core";
+import { Link } from "react-router-dom";
 import "./Home.css";
+import auth from "../../Auth/Auth";
 
 export default class Home extends Component {
   constructor() {
@@ -17,7 +19,7 @@ export default class Home extends Component {
   submit = () => {
     const data = { email: this.state.email, password: this.state.password };
     const json = JSON.stringify(data);
-    fetch("localhost:3000", {
+    fetch("http://localhost:3000/users/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -25,6 +27,16 @@ export default class Home extends Component {
       body: json
     })
       .then(response => response.json())
+      .then(data => {
+        localStorage.setItem("token", data.token);
+        sessionStorage.setItem("token", data.token);
+        console.log(data);
+      })
+      .then(() => {
+        auth.login(() => {
+          this.props.history.push("/tvguide");
+        });
+      })
       .catch(err => console.log(err));
   };
 
@@ -49,6 +61,7 @@ export default class Home extends Component {
           />
 
           <Button onClick={this.submit}>Click</Button>
+          <Link to={"/register"}>To Register</Link>
         </MuiThemeProvider>
       </div>
     );

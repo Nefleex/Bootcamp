@@ -12,6 +12,7 @@ import {
   faCube,
   faCubes
 } from "@fortawesome/free-solid-svg-icons";
+import auth from "../../Auth/Auth";
 
 class TvGuide extends Component {
   constructor() {
@@ -28,48 +29,18 @@ class TvGuide extends Component {
   }
   // TO-DO:
   // Styling
-  // Store tv show data from api to a database to have data on stand-by,
-  // fetch from said database instead of public api for faster load times???
+  // Store jwt and use it to auth
 
   toggleShows = () => {
     const btn = document.querySelector(".expired-shows");
-    this.setState({ showExpired: !this.state.showExpired });
-    btn.textContent === "Show Expired"
-      ? (btn.textContent = "Hide Expired")
-      : (btn.textContent = "Show Expired");
+    this.setState({ showExpired: !this.state.showExpired }, () => {
+      this.state.showExpired === false
+        ? (btn.textContent = "Show Expired")
+        : (btn.textContent = "Hide Expired");
+    });
   };
 
   componentDidMount() {
-    const date = moment(new Date());
-    const now = date.format("YYYY-MM-DDTHH:mm:ss.[0200]");
-    console.log("Date " + now);
-
-    let tomorrow = new Date();
-    tomorrow.setHours(tomorrow.getHours() + 24);
-    tomorrow = moment(tomorrow);
-    tomorrow = tomorrow.format("YYYY-MM-DDTHH:mm:ss.[0200]");
-
-    console.log(tomorrow);
-
-    let t = new Date();
-    // console.log(new Date(t.getFullYear(), t.getMonth() + 1, 0, 23, 59, 59));
-    t = moment(t);
-
-    let tomor = t.add(11, "d");
-    console.log(tomor.format("YYYY-DD-MM"));
-
-    // const yle1Url = `https://external.api.yle.fi/v1/programs/schedules.json?service=yle-tv1 \
-    // &starttime=${now}&endTime=${tomorrow}${process.env.REACT_APP_API_KEY}`;
-    const yle1Url = `https://external.api.yle.fi/v1/programs/schedules.json?&service=yle-tv1&starttime=${t.format(
-      "YYYY"
-    )}-${t.format("MM")}-${t
-      .add(0, "d")
-      .format("DD")}T06%3A00%3A00.000%2B0200&endtime=${t.format(
-      "YYYY"
-    )}-${t.format("MM")}-${t
-      .add(1, "d")
-      .format("DD")}T06%3A00%3A00.000%2B0200&${process.env.REACT_APP_API_KEY}`;
-
     const testUrl = `http://localhost:3000/api/shows?${this.formatTime(
       this.state.minDate,
       this.state.maxDate
@@ -79,11 +50,11 @@ class TvGuide extends Component {
     // const urlForAllChannels = `https://external.api.yle.fi/v1/programs/services.json?type=tvchannel&$
     const proxyurl = "https://cors-anywhere.herokuapp.com/";
 
-    fetch(proxyurl + yle1Url)
-      .then(response => response.json())
-      .then(contents => this.setState({ yle1data: contents, isLoaded: true }))
-      .then(() => console.log(this.state.yle1data))
-      .catch(err => console.log(err));
+    // fetch(proxyurl + yle1Url)
+    //   .then(response => response.json())
+    //   .then(contents => this.setState({ yle1data: contents, isLoaded: true }))
+    //   .then(() => console.log(this.state.yle1data))
+    //   .catch(err => console.log(err));
   }
   switchDate = e => {
     if (e.target.name === "previous") {
@@ -120,6 +91,15 @@ class TvGuide extends Component {
     t2 = t2.add(offset2, "d").format("YYYY-DD-MM");
     return `startDate=${t1}&endDate=${t2}`;
   };
+  Btn = () => {
+    if (this.state.minDate === 0) {
+      return (
+        <button className="expired-shows" onClick={this.toggleShows}>
+          Show Expired{" "}
+        </button>
+      );
+    }
+  };
 
   // `https://external.api.yle.fi/v1/programs/schedules.json?${process.env.REACT_APP_API_KEY}&service=yle-tv1&starttime=2019-01-23T12%3A00%3A00.000%2B0200&endtime=2019-01-23T14%3A00%3A00.000%2B0200`
 
@@ -128,20 +108,27 @@ class TvGuide extends Component {
       0,
       7
     )}&channel=yle-tv1`;
+
     return (
       <div className="body">
         <Banner />
-        <button className="expired-shows" onClick={this.toggleShows}>
-          Show Expired
+        <button
+          onClick={() => {
+            auth.logout(() => {
+              this.props.history.push("/");
+            });
+          }}
+        >
+          Logout
         </button>
+        {this.Btn()}
         <input type="checkbox" name="show-expired" value="" />
         <hr />
-        <button name="previous" onClick={this.switchDate}>
-          Previous
-        </button>
-        <button name="next" onClick={this.switchDate}>
-          Next
-        </button>
+        <PreviousButton
+          minDate={this.state.minDate}
+          switchDate={this.switchDate}
+        />
+        <NextButton minDate={this.state.minDate} switchDate={this.switchDate} />
         <div>
           {this.state.minDate} : {this.state.maxDate}
         </div>
@@ -199,6 +186,36 @@ class TvGuide extends Component {
       </div>
     );
   }
+}
+
+function NextButton(props) {
+  return props.minDate <= 3 ? (
+    <button name="next" onClick={props.switchDate}>
+      {" "}
+      Next
+    </button>
+  ) : null;
+}
+
+function PreviousButton(props) {
+  return props.minDate > 0 ? (
+    <button name="previous" onClick={props.switchDate}>
+      {" "}
+      Previous
+    </button>
+  ) : null;
+}
+
+function ToggleExpiredButton(props) {
+  let d = new Date();
+  d = moment(d).format("YYYYDDMMHHMMSS");
+
+  // return props.minDate > 0 ? (
+  //   <button name="previous" onClick={props.switchDate}>
+  //     {" "}
+  //     Previous
+  //   </button>
+  // ) : null;
 }
 
 export default TvGuide;
