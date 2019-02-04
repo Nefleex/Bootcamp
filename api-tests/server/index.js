@@ -62,7 +62,7 @@ const showSchema = new mongoose.Schema({
   channel: String
 });
 
-const Show = mongoose.model("Show", showSchema);
+const Show = mongoose.model("Show", showSchema, "shows");
 
 async function createShow(startTime, endTime, title, description, source) {
   try {
@@ -136,21 +136,21 @@ formatTime = (offset1, offset2) => {
 
 app.listen("3000");
 
-// for (let i = 0; i <= 5; i++) {
-//   getTvData(i, i + 1, urlYle1);
-// }
+for (let i = 0; i <= 5; i++) {
+  getTvData(i, i + 1, urlYle1);
+}
 
-// for (let i = 0; i <= 5; i++) {
-//   getTvData(i, i + 1, urlYle2);
-// }
+for (let i = 0; i <= 5; i++) {
+  getTvData(i, i + 1, urlYle2);
+}
 
-// for (let i = 0; i <= 5; i++) {
-//   getTvData(i, i + 1, urlYleTeema);
-// }
+for (let i = 0; i <= 5; i++) {
+  getTvData(i, i + 1, urlYleTeema);
+}
 
-// for (let i = 0; i <= 5; i++) {
-//   getTvData(i, i + 1, urlYleAreena);
-// }
+for (let i = 0; i <= 5; i++) {
+  getTvData(i, i + 1, urlYleAreena);
+}
 
 async function getShows() {
   const result = await Show.find().sort("endTime: -1");
