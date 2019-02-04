@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Button, MuiThemeProvider, TextField } from "@material-ui/core";
 import StatusDisplayer from "./StatusDisplayer";
+import { Link } from "react-router-dom";
 import "./RegisterForm.css";
 
 export default class RegisterForm extends Component {
@@ -53,6 +54,7 @@ export default class RegisterForm extends Component {
 
           <Button onClick={this.submit}>Click</Button>
           <StatusDisplayer text={this.state.responseText} />
+          <Link to={"/"}>To Login</Link>
         </MuiThemeProvider>
       </div>
     );

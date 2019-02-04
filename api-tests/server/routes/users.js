@@ -51,12 +51,13 @@ router.post("/login", async (req, res) => {
       jwt.sign(
         { id: user._id, email: user.email },
         process.env.JWT_PRIVATE_KEY,
+        { expiresIn: "30m" },
         (err, token) => {
           if (err) {
             console.log(err);
             return res.status(500).send("Token creation failed");
           } else {
-            res.status(200).send(token);
+            res.status(200).send({ token: token });
           }
         }
       );

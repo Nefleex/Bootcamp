@@ -51,6 +51,14 @@ app.get("/api/shows/", async (req, res) => {
   res.send(result);
 });
 
+async function getShowsBetweenDates(a, b, source) {
+  const result = await Show.find({
+    channel: source
+  });
+  console.log(result);
+  return result;
+}
+
 // todo register user with email and password, login
 // fetch from api, store -+month's channel schedules
 
@@ -123,19 +131,18 @@ formatTime = (offset1, offset2) => {
   t = moment(t);
   t1 = moment(t1);
   if (offset1 >= -1) {
-    return `starttime=${t.format("YYYY")}-${t.format("MM")}-${t
+    return `starttime=${t
       .add(`${offset1}`, "d")
-      .format("DD")}T06%3A00%3A00.000%2B0200&endtime=${t.format(
-      "YYYY"
-    )}-${t.format("MM")}-${t1
+      .format("YYYY-MM-DD")}T06%3A00%3A00.000%2B0200&endtime=${t1
       .add(`${offset2}`, "d")
-      .format("DD")}T06%3A00%3A00.000%2B0200&`;
+      .format("YYYY-MM-DD")}T06%3A00%3A00.000%2B0200&`;
   } else {
   }
 };
 
 app.listen("3000");
 
+<<<<<<< HEAD
 for (let i = 0; i <= 5; i++) {
   getTvData(i, i + 1, urlYle1);
 }
@@ -152,6 +159,8 @@ for (let i = 0; i <= 5; i++) {
   getTvData(i, i + 1, urlYleAreena);
 }
 
+=======
+>>>>>>> db571e3820efef2ed91c6ec0862b33fa2732dd6e
 async function getShows() {
   const result = await Show.find().sort("endTime: -1");
   console.log(result);
@@ -163,18 +172,32 @@ Date.prototype.addDays = function(days) {
   return date;
 };
 
-async function getShowsBetweenDates(a, b, source) {
-  const result = await Show.find({
-    channel: source,
-    startTime: { $lte: b, $gte: a }
-  }).select({ _id: 0 });
-  console.log(result);
-  return result;
-}
-const now = new Date();
-let nextTimeLimit = new Date();
-nextTimeLimit = nextTimeLimit.addDays(8);
+// const now = new Date();
+// let nextTimeLimit = new Date();
+// nextTimeLimit = nextTimeLimit.addDays(8);
 
 // getShowsBetweenDates(now, nextTimeLimit);
 
-console.log(nextTimeLimit);
+// console.log(nextTimeLimit);
+
+// for (let i = 0; i <= 7; i++) {
+//   getTvData(i, i + 1, urlYle1);
+// }
+
+// for (let i = 0; i <= 7; i++) {
+//   getTvData(i, i + 1, urlYle2);
+// }
+
+// for (let i = 0; i <= 7; i++) {
+//   getTvData(i, i + 1, urlYleTeema);
+// }
+
+// for (let i = 0; i <= 7; i++) {
+//   getTvData(i, i + 1, urlYleAreena);
+// }
+
+// getTvData(0, 1, urlYle1);
+// getTvData(1, 2, urlYle1);
+// getTvData(2, 3, urlYle1);
+// getTvData(3, 4, urlYle1);
+// getTvData(4, 5, urlYle1);
