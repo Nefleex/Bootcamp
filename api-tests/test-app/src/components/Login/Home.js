@@ -1,18 +1,13 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import {
   Button,
-  MuiThemeProvider,
   TextField,
-<<<<<<< HEAD
-=======
   withStyles,
   FormControl,
->>>>>>> e4ba289740640c61d726d50151054023a25e1db9
   Typography
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 import "./Home.css";
-import auth from "../../Auth/Auth";
 
 const styles = theme => ({
   FormControl: {
@@ -50,46 +45,43 @@ export default withStyles(styles)(
           console.log(data);
         })
         .then(() => {
-          auth.login(() => {
-            this.props.history.push("/tvguide");
-          });
+          this.props.history.push("/tvguide");
         })
         .catch(err => console.log(err));
     };
 
-
     render() {
       const { classes } = this.props;
       return (
-        <div>
-          <MuiThemeProvider>
-            <form>
-              <FormControl className={classes.FormControl}>
-                <Typography variant="h4">LOGIN</Typography>
-                <TextField
-                  name="email"
-                  value={this.state.email}
-                  placeholder="Email"
-                  onChange={this.onChange}
-                  type="text"
-                />
-                <TextField
-                  name="password"
-                  value={this.state.password}
-                  placeholder="Password"
-                  onChange={this.onChange}
-                  type="password"
-                />
->>>>>>> e4ba289740640c61d726d50151054023a25e1db9
+        <Fragment>
+          <form>
+            <FormControl className={classes.FormControl}>
+              <Typography variant="h4">LOGIN</Typography>
+              <TextField
+                name="email"
+                value={this.state.email}
+                placeholder="Email"
+                onChange={this.onChange}
+                type="text"
+              />
+              <TextField
+                name="password"
+                value={this.state.password}
+                placeholder="Password"
+                onChange={this.onChange}
+                type="password"
+              />
 
-                <Button onClick={this.submit}>Submit</Button>
-                <Link to={"/register"}>
-                  <Typography variant="overline">To Register</Typography>
-                </Link>
-              </FormControl>
-            </form>
-          </MuiThemeProvider>
-        </div>
+              <Button onClick={this.submit}>Submit</Button>
+              <Link to={"/register"}>
+                <Typography variant="overline">To Register</Typography>
+              </Link>
+              <Link to={"/tvguide"}>
+                <Typography variant="overline">To TvGuide</Typography>
+              </Link>
+            </FormControl>
+          </form>
+        </Fragment>
       );
     }
   }

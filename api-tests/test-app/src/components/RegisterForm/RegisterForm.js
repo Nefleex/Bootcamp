@@ -1,14 +1,10 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import {
   Button,
-  MuiThemeProvider,
   TextField,
-<<<<<<< HEAD
-  Typography
-=======
   Typography,
+  FormControl,
   withStyles
->>>>>>> e4ba289740640c61d726d50151054023a25e1db9
 } from "@material-ui/core";
 import StatusDisplayer from "./StatusDisplayer";
 import { Link } from "react-router-dom";
@@ -52,29 +48,31 @@ export default withStyles(styles)(
       const { classes } = this.props;
 
       return (
-        <div>
-          <MuiThemeProvider>
-            <h4>register</h4>
-            <TextField
-              name="email"
-              value={this.state.email}
-              placeholder="Email"
-              onChange={this.onChange}
-              type="text"
-            />
-            <TextField
-              name="password"
-              value={this.state.password}
-              placeholder="Password"
-              onChange={this.onChange}
-              type="password"
-            />
+        <Fragment>
+          <form>
+            <FormControl className={classes.FormControl}>
+              <Typography variant="h4">REGISTER</Typography>
+              <TextField
+                name="email"
+                value={this.state.email}
+                placeholder="Email"
+                onChange={this.onChange}
+                type="text"
+              />
+              <TextField
+                name="password"
+                value={this.state.password}
+                placeholder="Password"
+                onChange={this.onChange}
+                type="password"
+              />
 
-            <Button onClick={this.submit}>Click</Button>
-            <StatusDisplayer text={this.state.responseText} />
-            <Link to={"/"}>To Login</Link>
-          </MuiThemeProvider>
-        </div>
+              <Button onClick={this.submit}>Click</Button>
+              <StatusDisplayer text={this.state.responseText} />
+              <Link to={"/"}>To Login</Link>
+            </FormControl>
+          </form>
+        </Fragment>
       );
     }
   }

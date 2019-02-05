@@ -12,7 +12,6 @@ import {
   faCube,
   faCubes
 } from "@fortawesome/free-solid-svg-icons";
-import auth from "../../Auth/Auth";
 
 class TvGuide extends Component {
   constructor() {
@@ -114,9 +113,9 @@ class TvGuide extends Component {
         <Banner />
         <button
           onClick={() => {
-            auth.logout(() => {
-              this.props.history.push("/");
-            });
+            this.props.history.push("/");
+            localStorage.clear();
+            sessionStorage.clear();
           }}
         >
           Logout
