@@ -9,7 +9,6 @@ export default () => (
   <BrowserRouter>
     <Switch>
       <Route exact path="/" component={Home} />
-      {/* <Route exact path="/tvguide" component={TvGuide} /> */}
       <Route exact path="/register" component={RegisterForm} />
       <PrivateRoute exact path="/tvguide" component={TvGuide} />
       <Route path="*" component={() => "404: Not a valid website"} />

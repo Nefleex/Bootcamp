@@ -1,5 +1,10 @@
 import React, { Component } from "react";
-import { Button, MuiThemeProvider, TextField } from "@material-ui/core";
+import {
+  Button,
+  MuiThemeProvider,
+  TextField,
+  Typography
+} from "@material-ui/core";
 import { Link } from "react-router-dom";
 import "./Home.css";
 import auth from "../../Auth/Auth";
@@ -44,7 +49,7 @@ export default class Home extends Component {
     return (
       <div>
         <MuiThemeProvider>
-          <h4>login</h4>
+          <Typography variant="h4">Login</Typography>
           <TextField
             name="email"
             value={this.state.email}

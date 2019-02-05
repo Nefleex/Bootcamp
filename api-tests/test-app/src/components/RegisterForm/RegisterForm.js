@@ -1,5 +1,10 @@
 import React, { Component } from "react";
-import { Button, MuiThemeProvider, TextField } from "@material-ui/core";
+import {
+  Button,
+  MuiThemeProvider,
+  TextField,
+  Typography
+} from "@material-ui/core";
 import StatusDisplayer from "./StatusDisplayer";
 import { Link } from "react-router-dom";
 import "./RegisterForm.css";
