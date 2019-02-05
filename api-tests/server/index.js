@@ -142,6 +142,25 @@ formatTime = (offset1, offset2) => {
 
 app.listen("3000");
 
+<<<<<<< HEAD
+for (let i = 0; i <= 5; i++) {
+  getTvData(i, i + 1, urlYle1);
+}
+
+for (let i = 0; i <= 5; i++) {
+  getTvData(i, i + 1, urlYle2);
+}
+
+for (let i = 0; i <= 5; i++) {
+  getTvData(i, i + 1, urlYleTeema);
+}
+
+for (let i = 0; i <= 5; i++) {
+  getTvData(i, i + 1, urlYleAreena);
+}
+
+=======
+>>>>>>> db571e3820efef2ed91c6ec0862b33fa2732dd6e
 async function getShows() {
   const result = await Show.find().sort("endTime: -1");
   console.log(result);
