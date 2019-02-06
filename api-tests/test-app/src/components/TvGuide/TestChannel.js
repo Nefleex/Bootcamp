@@ -126,7 +126,7 @@ export default class TestChannel extends Component {
   //   }
   // }
 
-  componentWillMount() {
+  componentDidMount() {
     this.fetchData();
   }
 

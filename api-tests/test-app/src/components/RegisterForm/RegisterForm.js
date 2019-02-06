@@ -4,8 +4,15 @@ import {
   TextField,
   Typography,
   FormControl,
-  withStyles
+  withStyles,
+  InputLabel,
+  Input,
+  FormHelperText,
+  IconButton,
+  InputAdornment
 } from "@material-ui/core";
+import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import StatusDisplayer from "./StatusDisplayer";
 import { Link } from "react-router-dom";
 import "./RegisterForm.css";
@@ -13,12 +20,18 @@ import { faFileExcel, faAlignCenter } from "@fortawesome/free-solid-svg-icons";
 const styles = theme => ({
   root: {
     display: "flex",
-    width: 500,
     alignItems: "center",
     justifyContent: "center",
-    border: "black 1px solid"
+    flexDirection: "column",
+    minWidth: 280
   },
-  FormControl: {}
+  FormControl: {
+    width: "100%"
+  },
+  container: {
+    width: 300,
+    marginTop: 30
+  }
 });
 
 export default withStyles(styles)(
@@ -28,11 +41,16 @@ export default withStyles(styles)(
       this.state = {
         email: "",
         password: "",
+        showPassword: false,
         responseText: ""
       };
     }
     onChange = e => {
       this.setState({ [e.target.name]: e.target.value });
+    };
+
+    handleClickShowPassword = () => {
+      this.setState(state => ({ showPassword: !state.showPassword }));
     };
 
     submit = () => {
@@ -54,33 +72,70 @@ export default withStyles(styles)(
       const { classes } = this.props;
 
       return (
-        <Fragment>
-          <form className={classes.root}>
-            <FormControl className={classes.FormControl} fullWidth="true">
-              <Typography variant="h4">REGISTER</Typography>
-              <TextField
+        <div className={classes.root}>
+          <div className={classes.container}>
+            <Typography variant="h5">REGISTER</Typography>
+            {/* <TextField
+            name="email"
+            value={this.state.email}
+            placeholder="Email"
+            onChange={this.onChange}
+            type="text"
+            required="true"
+          /> */}
+            <FormControl className={classes.FormControl}>
+              <InputLabel htmlFor="component-simple">Email</InputLabel>
+              <Input
                 name="email"
+                id="component-simple"
                 value={this.state.email}
-                placeholder="Email"
                 onChange={this.onChange}
-                type="text"
-                required="true"
               />
-              <TextField
+            </FormControl>
+            <br />
+            <FormControl className={classes.FormControl}>
+              <InputLabel htmlFor="adornment-password">Password</InputLabel>
+              <Input
                 name="password"
+                id="adornment-password"
+                type={this.state.showPassword ? "text" : "password"}
                 value={this.state.password}
-                placeholder="Password"
                 onChange={this.onChange}
-                type="password"
-                required="true"
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="Toggle password visibility"
+                      onClick={this.handleClickShowPassword}
+                    >
+                      {this.state.showPassword ? (
+                        <Visibility />
+                      ) : (
+                        <VisibilityOff />
+                      )}
+                    </IconButton>
+                  </InputAdornment>
+                }
               />
-
+            </FormControl>
+            {/* <TextField
+            name="password"
+            value={this.state.password}
+            placeholder="Password"
+            onChange={this.onChange}
+            type="password"
+            required="true"
+          /> */}
+            <br />
+            <FormControl className={classes.FormControl}>
               <Button onClick={this.submit}>Click</Button>
               <StatusDisplayer text={this.state.responseText} />
-              <Link to={"/"}>To Login</Link>
+              <Link to={"/"}>
+                {" "}
+                <Typography variant="overline">TO LOGIN</Typography>
+              </Link>
             </FormControl>
-          </form>
-        </Fragment>
+          </div>
+        </div>
       );
     }
   }

@@ -178,7 +178,6 @@ class TvGuide extends Component {
 function NextButton(props) {
   return props.minDate <= 5 ? (
     <button name="next" onClick={props.switchDate}>
-      {" "}
       Next
     </button>
   ) : null;
@@ -187,7 +186,6 @@ function NextButton(props) {
 function PreviousButton(props) {
   return props.minDate > 0 ? (
     <button name="previous" onClick={props.switchDate}>
-      {" "}
       Previous
     </button>
   ) : null;

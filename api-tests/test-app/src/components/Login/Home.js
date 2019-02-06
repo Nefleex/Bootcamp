@@ -2,16 +2,34 @@ import React, { Component, Fragment } from "react";
 import {
   Button,
   TextField,
-  withStyles,
+  Typography,
   FormControl,
-  Typography
+  withStyles,
+  InputLabel,
+  Input,
+  FormHelperText,
+  IconButton,
+  InputAdornment
 } from "@material-ui/core";
+import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import { Link } from "react-router-dom";
 import "./Home.css";
 
 const styles = theme => ({
+  root: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "column",
+    minWidth: 320
+  },
   FormControl: {
-    width: 400
+    width: "100%"
+  },
+  container: {
+    width: 300,
+    marginTop: 30
   }
 });
 
@@ -26,6 +44,9 @@ export default withStyles(styles)(
     }
     onChange = e => {
       this.setState({ [e.target.name]: e.target.value });
+    };
+    handleClickShowPassword = () => {
+      this.setState(state => ({ showPassword: !state.showPassword }));
     };
 
     submit = () => {
@@ -53,27 +74,42 @@ export default withStyles(styles)(
     render() {
       const { classes } = this.props;
       return (
-        <Fragment>
-          <form>
+        <div className={classes.root}>
+          <div className={classes.container}>
+            <Typography variant="h5">LOGIN</Typography>
             <FormControl className={classes.FormControl}>
-              <Typography variant="h4">LOGIN</Typography>
-              <TextField
+              <InputLabel htmlFor="component-simple">Email</InputLabel>
+              <Input
                 name="email"
+                id="component-simple"
                 value={this.state.email}
-                placeholder="Email"
                 onChange={this.onChange}
-                type="text"
-                required="true"
               />
-              <TextField
+            </FormControl>
+            <br />
+            <FormControl className={classes.FormControl}>
+              <InputLabel htmlFor="adornment-password">Password</InputLabel>
+              <Input
                 name="password"
+                id="adornment-password"
+                type={this.state.showPassword ? "text" : "password"}
                 value={this.state.password}
-                placeholder="Password"
                 onChange={this.onChange}
-                type="password"
-                required="true"
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="Toggle password visibility"
+                      onClick={this.handleClickShowPassword}
+                    >
+                      {this.state.showPassword ? (
+                        <Visibility />
+                      ) : (
+                        <VisibilityOff />
+                      )}
+                    </IconButton>
+                  </InputAdornment>
+                }
               />
-
               <Button onClick={this.submit}>Submit</Button>
               <Link to={"/register"}>
                 <Typography variant="overline">To Register</Typography>
@@ -82,8 +118,8 @@ export default withStyles(styles)(
                 <Typography variant="overline">To TvGuide</Typography>
               </Link>
             </FormControl>
-          </form>
-        </Fragment>
+          </div>
+        </div>
       );
     }
   }
