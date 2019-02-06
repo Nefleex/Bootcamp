@@ -63,6 +63,7 @@ export default withStyles(styles)(
                 placeholder="Email"
                 onChange={this.onChange}
                 type="text"
+                required="true"
               />
               <TextField
                 name="password"
@@ -70,6 +71,7 @@ export default withStyles(styles)(
                 placeholder="Password"
                 onChange={this.onChange}
                 type="password"
+                required="true"
               />
 
               <Button onClick={this.submit}>Submit</Button>

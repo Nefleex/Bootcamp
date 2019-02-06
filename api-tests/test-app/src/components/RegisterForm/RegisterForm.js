@@ -9,10 +9,16 @@ import {
 import StatusDisplayer from "./StatusDisplayer";
 import { Link } from "react-router-dom";
 import "./RegisterForm.css";
+import { faFileExcel, faAlignCenter } from "@fortawesome/free-solid-svg-icons";
 const styles = theme => ({
-  FormControl: {
-    width: 400
-  }
+  root: {
+    display: "flex",
+    width: 500,
+    alignItems: "center",
+    justifyContent: "center",
+    border: "black 1px solid"
+  },
+  FormControl: {}
 });
 
 export default withStyles(styles)(
@@ -49,8 +55,8 @@ export default withStyles(styles)(
 
       return (
         <Fragment>
-          <form>
-            <FormControl className={classes.FormControl}>
+          <form className={classes.root}>
+            <FormControl className={classes.FormControl} fullWidth="true">
               <Typography variant="h4">REGISTER</Typography>
               <TextField
                 name="email"
@@ -58,6 +64,7 @@ export default withStyles(styles)(
                 placeholder="Email"
                 onChange={this.onChange}
                 type="text"
+                required="true"
               />
               <TextField
                 name="password"
@@ -65,6 +72,7 @@ export default withStyles(styles)(
                 placeholder="Password"
                 onChange={this.onChange}
                 type="password"
+                required="true"
               />
 
               <Button onClick={this.submit}>Click</Button>
