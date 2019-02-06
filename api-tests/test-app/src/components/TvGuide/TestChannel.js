@@ -89,6 +89,7 @@ export default class TestChannel extends Component {
   };
 
   fetchData = () => {
+    console.log("Fetching");
     const proxyurl = "https://cors-anywhere.herokuapp.com/";
     this.setState({
       url: `${this.props.url}`,
@@ -125,24 +126,11 @@ export default class TestChannel extends Component {
   //   }
   // }
 
-  componentDidMount() {
+  componentWillMount() {
     this.fetchData();
   }
 
   render() {
-    // let currentTime = new Date();
-    // currentTime = moment(new Date()).format("YYYYDDMMHHMMSS");
-
-    // this.state.currentDayShows.map(item => {
-    //   let itemTime = moment(item.startTime).format("YYYYDDMMHHMMSS");
-    //   if (itemTime < currentTime) {
-    //     console.log("--");
-    //     console.log(currentTime);
-
-    //     console.log(moment(item.startTime).format("YYYYDDMMHHMMSS"));
-    //     console.log("--");
-    //   }
-    // });
     return (
       <div className="channel-main">
         <h1 className="channel-title">

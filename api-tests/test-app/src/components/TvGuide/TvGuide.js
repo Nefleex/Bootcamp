@@ -57,27 +57,15 @@ class TvGuide extends Component {
   }
   switchDate = e => {
     if (e.target.name === "previous") {
-      this.setState(
-        {
-          minDate: this.state.minDate - 1,
-          maxDate: this.state.maxDate - 1
-        },
-        function() {
-          console.log(this.state.minDate);
-          console.log(this.state.maxDate);
-        }
-      );
+      this.setState({
+        minDate: this.state.minDate - 1,
+        maxDate: this.state.maxDate - 1
+      });
     } else if (e.target.name === "next") {
-      this.setState(
-        {
-          maxDate: this.state.maxDate + 1,
-          minDate: this.state.minDate + 1
-        },
-        function() {
-          console.log(this.state.minDate);
-          console.log(this.state.maxDate);
-        }
-      );
+      this.setState({
+        maxDate: this.state.maxDate + 1,
+        minDate: this.state.minDate + 1
+      });
     }
   };
 
@@ -86,10 +74,11 @@ class TvGuide extends Component {
     let t2 = new Date();
     t1 = moment(t1);
     t2 = moment(t2);
-    t1 = t1.add(offset1, "d").format("YYYY-DD-MM");
-    t2 = t2.add(offset2, "d").format("YYYY-DD-MM");
+    t1 = t1.add(offset1, "d").format("YYYY-MM-DD");
+    t2 = t2.add(offset2, "d").format("YYYY-MM-DD");
     return `startDate=${t1}&endDate=${t2}`;
   };
+
   Btn = () => {
     if (this.state.minDate === 0) {
       return (
@@ -103,10 +92,22 @@ class TvGuide extends Component {
   // `https://external.api.yle.fi/v1/programs/schedules.json?${process.env.REACT_APP_API_KEY}&service=yle-tv1&starttime=2019-01-23T12%3A00%3A00.000%2B0200&endtime=2019-01-23T14%3A00%3A00.000%2B0200`
 
   render() {
-    const testUrl = `http://localhost:3000/api/shows?${this.formatTime(
+    const yle1url = `http://localhost:3000/api/shows?${this.formatTime(
       0,
       7
     )}&channel=yle-tv1`;
+    const yle2url = `http://localhost:3000/api/shows?${this.formatTime(
+      0,
+      7
+    )}&channel=yle-tv2`;
+    const yleTeemaUrl = `http://localhost:3000/api/shows?${this.formatTime(
+      0,
+      7
+    )}&channel=yle-teema-fem`;
+    const yleAreenaUrl = `http://localhost:3000/api/shows?${this.formatTime(
+      0,
+      7
+    )}&channel=yle-areena`;
 
     return (
       <div className="body">
@@ -135,51 +136,38 @@ class TvGuide extends Component {
         <div className="channels-main">
           <TestChannel
             titleIcon={<FontAwesomeIcon icon={faFeather} />}
-            title={"TEST 1"}
-            url={testUrl}
+            title={"Yle 1"}
+            url={yle1url}
             isToggled={this.state.showExpired}
             startDate={this.state.minDate}
             endDate={this.state.maxDate}
           />
 
-          {/* <Channel
+          <TestChannel
             titleIcon={<FontAwesomeIcon icon={faFeather} />}
-            title={"CHANNEL 1"}
-            url={`https://external.api.yle.fi/v1/programs/schedules.json?&service=yle-tv1&${this.formatTime(
-              this.state.minDate,
-              this.state.maxDate
-            )}`}
+            title={"Yle 2"}
+            url={yle2url}
             isToggled={this.state.showExpired}
+            startDate={this.state.minDate}
+            endDate={this.state.maxDate}
           />
 
-          <Channel
-            titleIcon={<FontAwesomeIcon icon={faFeatherAlt} />}
-            title={"CHANNEL 2"}
-            url={`https://external.api.yle.fi/v1/programs/schedules.json?service=yle-tv2&${this.formatTime(
-              this.state.minDate,
-              this.state.maxDate
-            )}`}
+          <TestChannel
+            titleIcon={<FontAwesomeIcon icon={faFeather} />}
+            title={"Areena"}
+            url={yleAreenaUrl}
             isToggled={this.state.showExpired}
+            startDate={this.state.minDate}
+            endDate={this.state.maxDate}
           />
-
-          <Channel
-            titleIcon={<FontAwesomeIcon icon={faCubes} />}
-            title={"TEEMA FEM"}
-            url={`https://external.api.yle.fi/v1/programs/schedules.json?service=yle-teema-fem&${this.formatTime(
-              this.state.minDate,
-              this.state.maxDate
-            )}`}
+          <TestChannel
+            titleIcon={<FontAwesomeIcon icon={faFeather} />}
+            title={"Teema"}
+            url={yleTeemaUrl}
             isToggled={this.state.showExpired}
+            startDate={this.state.minDate}
+            endDate={this.state.maxDate}
           />
-          <Channel
-            titleIcon={<FontAwesomeIcon icon={faCube} />}
-            title={"AREENA"}
-            url={`https://external.api.yle.fi/v1/programs/schedules.json?service=yle-areena&${this.formatTime(
-              this.state.minDate,
-              this.state.maxDate
-            )}`}
-            isToggled={this.state.showExpired}
-          /> */}
         </div>
         <Footer />
       </div>
@@ -188,7 +176,7 @@ class TvGuide extends Component {
 }
 
 function NextButton(props) {
-  return props.minDate <= 3 ? (
+  return props.minDate <= 5 ? (
     <button name="next" onClick={props.switchDate}>
       {" "}
       Next

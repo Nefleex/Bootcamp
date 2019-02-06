@@ -15,5 +15,7 @@ export default function ShowNonExpired(props) {
       }
     });
   }
-  return a.map(item => <React.Fragment>{item}</React.Fragment>);
+  return a.map((item, index) => (
+    <React.Fragment key={index}>{item}</React.Fragment>
+  ));
 }
