@@ -2,11 +2,14 @@ const express = require("express");
 const Joi = require("joi");
 const mongoose = require("mongoose");
 const app = express();
-let apiKey = "";
 const fetch = require("node-fetch");
 const moment = require("moment");
 const bodyParser = require("body-parser");
 const users = require("./routes/users");
+const auth = require("./routes/auth");
+const headers = require("./Middleware/headers");
+
+// const { getTvData, shows } = require("./routes/shows");
 
 const cors = require("cors");
 require("dotenv").config();
@@ -22,10 +25,7 @@ if (process.env.API_KEY && process.env.JWT_PRIVATE_KEY) {
 }
 
 mongoose
-  .connect(
-    "mongodb://localhost:27017/tv-app",
-    { useNewUrlParser: true }
-  )
+  .connect("mongodb://localhost:27017/tv-app", { useNewUrlParser: true })
   .then(() => console.log("Connected to Mongodb"))
   .catch(err => console.log(err));
 
@@ -33,7 +33,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 cors({ credentials: true, origin: true });
+app.use(headers);
 app.use("/users/", users);
+app.use("/api/auth/", auth);
+// app.use("/api/shows/", shows);
 
 // app.post("/register", (req, res) => {
 //   //
@@ -41,8 +44,8 @@ app.use("/users/", users);
 
 app.get("/api/shows/", async (req, res) => {
   // http://localhost:3000/api/shows?startDate=123&endDate=345
-  const startTime = new Date(req.query.startDate);
-  const endTime = new Date(req.query.endDate);
+  let startTime = new Date(req.query.startDate);
+  let endTime = new Date(req.query.endDate);
   const channel = req.query.channel;
 
   // Show.find;
@@ -52,15 +55,17 @@ app.get("/api/shows/", async (req, res) => {
 });
 
 async function getShowsBetweenDates(a, b, source) {
+  console.log(a, b, source);
   const result = await Show.find({
-    channel: source
+    channel: source,
+    startTime: {
+      $gte: `${a}`,
+      $lt: `${b}`
+    }
   });
   console.log(result);
   return result;
 }
-
-// todo register user with email and password, login
-// fetch from api, store -+month's channel schedules
 
 const showSchema = new mongoose.Schema({
   startTime: { type: Date, unique: true },
@@ -75,8 +80,8 @@ const Show = mongoose.model("Show", showSchema, "shows");
 async function createShow(startTime, endTime, title, description, source) {
   try {
     const show = new Show({
-      startTime: startTime,
-      endTime: endTime,
+      startTime: new Date(startTime),
+      endTime: new Date(endTime),
       title: title,
       description: description,
       channel: source
@@ -142,36 +147,6 @@ formatTime = (offset1, offset2) => {
 
 app.listen("3000");
 
-<<<<<<< HEAD
-for (let i = 0; i <= 5; i++) {
-  getTvData(i, i + 1, urlYle1);
-}
-
-for (let i = 0; i <= 5; i++) {
-  getTvData(i, i + 1, urlYle2);
-}
-
-for (let i = 0; i <= 5; i++) {
-  getTvData(i, i + 1, urlYleTeema);
-}
-
-for (let i = 0; i <= 5; i++) {
-  getTvData(i, i + 1, urlYleAreena);
-}
-
-=======
->>>>>>> db571e3820efef2ed91c6ec0862b33fa2732dd6e
-async function getShows() {
-  const result = await Show.find().sort("endTime: -1");
-  console.log(result);
-}
-
-Date.prototype.addDays = function(days) {
-  let date = new Date(this.valueOf());
-  date.setDate(date.getDate() + days);
-  return date;
-};
-
 // const now = new Date();
 // let nextTimeLimit = new Date();
 // nextTimeLimit = nextTimeLimit.addDays(8);
@@ -196,8 +171,22 @@ Date.prototype.addDays = function(days) {
 //   getTvData(i, i + 1, urlYleAreena);
 // }
 
+Show.remove({}, function(err) {
+  console.log("collection removed");
+});
 // getTvData(0, 1, urlYle1);
-// getTvData(1, 2, urlYle1);
-// getTvData(2, 3, urlYle1);
-// getTvData(3, 4, urlYle1);
-// getTvData(4, 5, urlYle1);
+for (let i = 0; i <= 7; i++) {
+  getTvData(i, i + 1, urlYle1);
+}
+
+for (let i = 0; i <= 7; i++) {
+  getTvData(i, i + 1, urlYle2);
+}
+
+for (let i = 0; i <= 7; i++) {
+  getTvData(i, i + 1, urlYleTeema);
+}
+
+for (let i = 0; i <= 7; i++) {
+  getTvData(i, i + 1, urlYleAreena);
+}
