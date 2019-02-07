@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react";
 import { Redirect } from "react-router-dom";
 import TvGuide from "./TvGuide/TvGuide";
 
-export default function withAuth(TvGuide) {
+export default function ProtectedRoute(TvGuide) {
   return class extends Component {
     constructor() {
       super();

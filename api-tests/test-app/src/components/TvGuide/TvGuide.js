@@ -3,6 +3,7 @@ import Channel from "./Channel";
 import Banner from "./Banner";
 import Footer from "./Footer";
 import TestChannel from "./TestChannel";
+import ChannelContainer from "./ChannelContainer";
 import "./TvGuide.css";
 import moment from "moment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,8 +13,10 @@ import {
   faCube,
   faCubes
 } from "@fortawesome/free-solid-svg-icons";
+import { KeyboardArrowRight, KeyboardArrowLeft } from "@material-ui/icons/";
+import { IconButton, Button } from "@material-ui/core";
 
-class TvGuide extends Component {
+export default class TvGuide extends Component {
   constructor() {
     super();
     this.state = {
@@ -134,16 +137,24 @@ class TvGuide extends Component {
         </div>
         <hr />
         <div className="channels-main">
-          <TestChannel
+          <ChannelContainer
+            url={yle1url}
+            titleIcon={<FontAwesomeIcon icon={faFeather} />}
+            title={"TEST"}
+            isToggled={this.state.showExpired}
+            startDate={this.state.minDate}
+            endDate={this.state.maxDate}
+          />
+          {/* <TestChannel
             titleIcon={<FontAwesomeIcon icon={faFeather} />}
             title={"Yle 1"}
             url={yle1url}
             isToggled={this.state.showExpired}
             startDate={this.state.minDate}
             endDate={this.state.maxDate}
-          />
+          /> */}
 
-          <TestChannel
+          <ChannelContainer
             titleIcon={<FontAwesomeIcon icon={faFeather} />}
             title={"Yle 2"}
             url={yle2url}
@@ -152,7 +163,7 @@ class TvGuide extends Component {
             endDate={this.state.maxDate}
           />
 
-          <TestChannel
+          <ChannelContainer
             titleIcon={<FontAwesomeIcon icon={faFeather} />}
             title={"Areena"}
             url={yleAreenaUrl}
@@ -160,7 +171,7 @@ class TvGuide extends Component {
             startDate={this.state.minDate}
             endDate={this.state.maxDate}
           />
-          <TestChannel
+          <ChannelContainer
             titleIcon={<FontAwesomeIcon icon={faFeather} />}
             title={"Teema"}
             url={yleTeemaUrl}
@@ -178,17 +189,21 @@ class TvGuide extends Component {
 function NextButton(props) {
   return props.minDate <= 5 ? (
     <button name="next" onClick={props.switchDate}>
-      Next
+      &gt;
     </button>
-  ) : null;
+  ) : (
+    <button style={{ visibility: "hidden" }}>&gt;</button>
+  );
 }
 
 function PreviousButton(props) {
   return props.minDate > 0 ? (
     <button name="previous" onClick={props.switchDate}>
-      Previous
+      &lt;
     </button>
-  ) : null;
+  ) : (
+    <button style={{ visibility: "hidden" }}>&lt;</button>
+  );
 }
 
 function ToggleExpiredButton(props) {
@@ -202,5 +217,3 @@ function ToggleExpiredButton(props) {
   //   </button>
   // ) : null;
 }
-
-export default TvGuide;
