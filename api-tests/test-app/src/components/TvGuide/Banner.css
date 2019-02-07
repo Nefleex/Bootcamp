@@ -6,6 +6,8 @@
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  background: rgb(204, 204, 204);
+  background: rgba(45, 47, 50, 0.7);
 }
 
 .guide-1 {

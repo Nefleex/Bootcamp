@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import Channel from "./Channel";
 import Banner from "./Banner";
 import Footer from "./Footer";
@@ -82,14 +82,39 @@ export default class TvGuide extends Component {
     return `startDate=${t1}&endDate=${t2}`;
   };
 
+  displayDate = offset => {
+    let today = new Date();
+    today = moment(today);
+    today = today.add(offset, "d").format("DD.MM.YYYY");
+    return <p style={{ display: "inline" }}>{today}</p>;
+  };
+
   Btn = () => {
     if (this.state.minDate === 0) {
       return (
-        <button className="expired-shows" onClick={this.toggleShows}>
-          Show Expired{" "}
+        <button
+          className="expired-shows util-button"
+          onClick={this.toggleShows}
+        >
+          Show Expired
+        </button>
+      );
+    } else {
+      return (
+        <button
+          className="expired-shows util-button"
+          style={{ visibility: "hidden" }}
+        >
+          Show Expired
         </button>
       );
     }
+  };
+
+  logout = () => {
+    this.props.history.push("/");
+    localStorage.clear();
+    sessionStorage.clear();
   };
 
   // `https://external.api.yle.fi/v1/programs/schedules.json?${process.env.REACT_APP_API_KEY}&service=yle-tv1&starttime=2019-01-23T12%3A00%3A00.000%2B0200&endtime=2019-01-23T14%3A00%3A00.000%2B0200`
@@ -114,26 +139,28 @@ export default class TvGuide extends Component {
 
     return (
       <div className="body">
-        <Banner />
-        <button
-          onClick={() => {
-            this.props.history.push("/");
-            localStorage.clear();
-            sessionStorage.clear();
-          }}
-        >
-          Logout
-        </button>
-        {this.Btn()}
-        <input type="checkbox" name="show-expired" value="" />
+        <div className="header" />
         <hr />
-        <PreviousButton
-          minDate={this.state.minDate}
-          switchDate={this.switchDate}
-        />
-        <NextButton minDate={this.state.minDate} switchDate={this.switchDate} />
-        <div>
-          {this.state.minDate} : {this.state.maxDate}
+        <div className="date-select-container">
+          <div className="date-select-sub">
+            <div className="date-select-unit-left">
+              <PreviousButton
+                minDate={this.state.minDate}
+                switchDate={this.switchDate}
+              />
+
+              {this.displayDate(this.state.minDate)}
+              <NextButton
+                minDate={this.state.minDate}
+                switchDate={this.switchDate}
+              />
+            </div>
+
+            <div className="date-select-unit-right">{this.Btn()}</div>
+          </div>
+          <button className="button-logout" onClick={this.logout}>
+            Logout
+          </button>
         </div>
         <hr />
         <div className="channels-main">
@@ -145,14 +172,6 @@ export default class TvGuide extends Component {
             startDate={this.state.minDate}
             endDate={this.state.maxDate}
           />
-          {/* <TestChannel
-            titleIcon={<FontAwesomeIcon icon={faFeather} />}
-            title={"Yle 1"}
-            url={yle1url}
-            isToggled={this.state.showExpired}
-            startDate={this.state.minDate}
-            endDate={this.state.maxDate}
-          /> */}
 
           <ChannelContainer
             titleIcon={<FontAwesomeIcon icon={faFeather} />}
@@ -192,7 +211,7 @@ function NextButton(props) {
       &gt;
     </button>
   ) : (
-    <button style={{ visibility: "hidden" }}>&gt;</button>
+    <button disabled>&gt;</button>
   );
 }
 
@@ -202,18 +221,6 @@ function PreviousButton(props) {
       &lt;
     </button>
   ) : (
-    <button style={{ visibility: "hidden" }}>&lt;</button>
+    <button disabled>&lt;</button>
   );
-}
-
-function ToggleExpiredButton(props) {
-  let d = new Date();
-  d = moment(d).format("YYYYDDMMHHMMSS");
-
-  // return props.minDate > 0 ? (
-  //   <button name="previous" onClick={props.switchDate}>
-  //     {" "}
-  //     Previous
-  //   </button>
-  // ) : null;
 }

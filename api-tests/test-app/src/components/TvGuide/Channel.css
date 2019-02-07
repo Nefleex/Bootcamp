@@ -9,11 +9,18 @@
 }
 .channel-content {
   background-color: #2d2f32;
+  background: rgb(204, 204, 204);
+  background: rgba(45, 47, 50, 0.7);
+  border-radius: 2px;
+  border-left: 2px solid white;
+  border-right: 2px solid white;
+  padding: 2px;
 }
 .channel-title {
   background-color: #2d2f32;
   margin-bottom: 0.1em;
   display: grid;
+
   grid-template-columns: max-content auto;
   grid-template-columns: 1fr;
 }
