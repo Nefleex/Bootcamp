@@ -14,13 +14,11 @@ function validateUser(user) {
       .max(255)
       .email()
       .required(),
-
     password: Joi.string()
       .min(3)
       .max(255)
       .required()
   };
-
   return Joi.validate(user, schema);
 }
 
@@ -80,7 +78,7 @@ router.post("/register", async (req, res) => {
     user.password = await bcrypt.hash(user.password, salt);
     const result = await user.save();
     console.log(result);
-    res.status(200).send(`Account created. Your username is ${result.email}`);
+    res.status(200).json(`Account created. Your username is ${result.email}`);
   } catch (err) {
     console.log(err.message);
     res.status(400).send(err.message);
