@@ -61,6 +61,29 @@
   border-radius: 5px;
 }
 
+.date-nav-button {
+  background-color: #2d2f32;
+  border: white 1px solid;
+  color: white;
+  padding: 0.35em;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+  border-radius: 5px;
+}
+
+.date-display {
+  background-color: #2d2f32;
+}
+
+.button-disabled {
+  /* background-color: #2d2f32; */
+  background: rgba(45, 47, 50, 0.2);
+  color: rgba(45, 47, 50, 0.2);
+  border: rgba(45, 47, 50, 0.2);
+}
+
 .expired-shows {
   margin: 0;
 }

@@ -32,6 +32,8 @@ export default function ProtectedRoute(TvGuide) {
         })
         .catch(err => {
           console.error(err);
+          localStorage.clear();
+          sessionStorage.clear();
           this.setState({ loading: false, redirect: true });
         });
     }

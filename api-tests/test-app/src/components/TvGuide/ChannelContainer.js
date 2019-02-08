@@ -122,6 +122,7 @@ export default class ChannelContainer extends Component {
         <TestChannel
           data={this.state.currentDayShows}
           isToggled={this.state.isLoaded}
+          title={this.props.title}
         />
       </Fragment>
     );

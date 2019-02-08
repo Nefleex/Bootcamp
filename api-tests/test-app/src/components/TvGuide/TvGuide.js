@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from "react";
-import Channel from "./Channel";
 import Banner from "./Banner";
 import Footer from "./Footer";
 import TestChannel from "./TestChannel";
@@ -86,7 +85,11 @@ export default class TvGuide extends Component {
     let today = new Date();
     today = moment(today);
     today = today.add(offset, "d").format("DD.MM.YYYY");
-    return <p style={{ display: "inline" }}>{today}</p>;
+    return (
+      <p className="date-display" style={{ display: "inline" }}>
+        {today}
+      </p>
+    );
   };
 
   Btn = () => {
@@ -167,7 +170,7 @@ export default class TvGuide extends Component {
           <ChannelContainer
             url={yle1url}
             titleIcon={<FontAwesomeIcon icon={faFeather} />}
-            title={"TEST"}
+            title={"Yle 1"}
             isToggled={this.state.showExpired}
             startDate={this.state.minDate}
             endDate={this.state.maxDate}
@@ -207,20 +210,28 @@ export default class TvGuide extends Component {
 
 function NextButton(props) {
   return props.minDate <= 5 ? (
-    <button name="next" onClick={props.switchDate}>
+    <button className="date-nav-button" name="next" onClick={props.switchDate}>
       &gt;
     </button>
   ) : (
-    <button disabled>&gt;</button>
+    <button className="date-nav-button  button-disabled" disabled>
+      &gt;
+    </button>
   );
 }
 
 function PreviousButton(props) {
   return props.minDate > 0 ? (
-    <button name="previous" onClick={props.switchDate}>
+    <button
+      className="date-nav-button"
+      name="previous"
+      onClick={props.switchDate}
+    >
       &lt;
     </button>
   ) : (
-    <button disabled>&lt;</button>
+    <button className="date-nav-button button-disabled" disabled>
+      &lt;
+    </button>
   );
 }
