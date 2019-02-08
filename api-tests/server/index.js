@@ -8,6 +8,7 @@ const bodyParser = require("body-parser");
 const users = require("./routes/users");
 const auth = require("./routes/auth");
 const headers = require("./Middleware/headers");
+const Show = require("./models/show");
 
 // const { getTvData, shows } = require("./routes/shows");
 
@@ -25,7 +26,10 @@ if (process.env.API_KEY && process.env.JWT_PRIVATE_KEY) {
 }
 
 mongoose
-  .connect("mongodb://localhost:27017/tv-app", { useNewUrlParser: true })
+  .connect(
+    "mongodb://localhost:27017/tv-app",
+    { useNewUrlParser: true }
+  )
   .then(() => console.log("Connected to Mongodb"))
   .catch(err => console.log(err));
 
@@ -67,15 +71,15 @@ async function getShowsBetweenDates(a, b, source) {
   return result;
 }
 
-const showSchema = new mongoose.Schema({
-  startTime: { type: Date, unique: true },
-  endTime: { type: Date, unique: true },
-  title: String,
-  description: String,
-  channel: String
-});
+// const showSchema = new mongoose.Schema({
+//   startTime: { type: Date, unique: true },
+//   endTime: { type: Date, unique: true },
+//   title: String,
+//   description: String,
+//   channel: String
+// });
 
-const Show = mongoose.model("Show", showSchema, "shows");
+// const Show = mongoose.model("Show", showSchema, "shows");
 
 async function createShow(startTime, endTime, title, description, source) {
   try {
@@ -171,22 +175,22 @@ app.listen("3000");
 //   getTvData(i, i + 1, urlYleAreena);
 // }
 
-Show.remove({}, function(err) {
-  console.log("collection removed");
-});
+// Show.remove({}, function(err) {
+//   console.log("collection removed");
+// });
 // getTvData(0, 1, urlYle1);
-for (let i = 0; i <= 7; i++) {
-  getTvData(i, i + 1, urlYle1);
-}
+// for (let i = 0; i <= 7; i++) {
+//   getTvData(i, i + 1, urlYle1);
+// }
 
-for (let i = 0; i <= 7; i++) {
-  getTvData(i, i + 1, urlYle2);
-}
+// for (let i = 0; i <= 7; i++) {
+//   getTvData(i, i + 1, urlYle2);
+// }
 
-for (let i = 0; i <= 7; i++) {
-  getTvData(i, i + 1, urlYleTeema);
-}
+// for (let i = 0; i <= 7; i++) {
+//   getTvData(i, i + 1, urlYleTeema);
+// }
 
-for (let i = 0; i <= 7; i++) {
-  getTvData(i, i + 1, urlYleAreena);
-}
+// for (let i = 0; i <= 7; i++) {
+//   getTvData(i, i + 1, urlYleAreena);
+// }

@@ -4,14 +4,9 @@ const router = express.Router();
 const Joi = require("joi");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const User = require(".././models/user");
 
-const userSchema = new mongoose.Schema({
-  email: { type: String, unique: true, required: true },
-  password: { type: String, required: true }
-});
-
-const User = mongoose.model("User", userSchema, "users");
-
+// Joi validating parameter against schema
 function validateUser(user) {
   const schema = {
     email: Joi.string()
