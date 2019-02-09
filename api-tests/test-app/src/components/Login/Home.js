@@ -52,7 +52,7 @@ export default withStyles(styles)(
     submit = () => {
       const data = { email: this.state.email, password: this.state.password };
       const json = JSON.stringify(data);
-      fetch("http://localhost:3000/users/login", {
+      fetch("http://localhost:3000/api/users/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

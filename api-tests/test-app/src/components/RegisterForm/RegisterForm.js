@@ -41,6 +41,9 @@ export default withStyles(styles)(
       this.state = {
         email: "",
         password: "",
+        address: "",
+        city: "",
+        postalCode: "",
         showPassword: false,
         responseText: ""
       };
@@ -54,9 +57,15 @@ export default withStyles(styles)(
     };
 
     submit = () => {
-      const data = { email: this.state.email, password: this.state.password };
+      const data = {
+        email: this.state.email,
+        password: this.state.password,
+        address: this.state.address,
+        city: this.state.city,
+        postalCode: this.state.postalCode
+      };
       const json = JSON.stringify(data);
-      fetch("http://localhost:3000/users/register", {
+      fetch("http://localhost:3000/api/users/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -125,6 +134,33 @@ export default withStyles(styles)(
             type="password"
             required="true"
           /> */}
+            <FormControl className={classes.FormControl}>
+              <InputLabel htmlFor="component-simple">City</InputLabel>
+              <Input
+                name="city"
+                id="component-simple"
+                value={this.state.city}
+                onChange={this.onChange}
+              />
+            </FormControl>
+            <FormControl className={classes.FormControl}>
+              <InputLabel htmlFor="component-simple">Address</InputLabel>
+              <Input
+                name="address"
+                id="component-simple"
+                value={this.state.address}
+                onChange={this.onChange}
+              />
+            </FormControl>
+            <FormControl className={classes.FormControl}>
+              <InputLabel htmlFor="component-simple">Postal Code</InputLabel>
+              <Input
+                name="postalCode"
+                id="component-simple"
+                value={this.state.postalCode}
+                onChange={this.onChange}
+              />
+            </FormControl>
             <br />
             <FormControl className={classes.FormControl}>
               <Button onClick={this.submit}>Click</Button>
