@@ -29,7 +29,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cors());
 cors({ credentials: true, origin: true });
 app.use(headers);
-app.use("/users/", users);
+app.use("/api/users/", users);
 app.use("/api/auth/", auth);
 app.use("/api/shows/", shows);
 
@@ -44,22 +44,22 @@ app.get("/api/shows/", async (req, res) => {
 
 app.listen("3000");
 
-Show.remove({}, function(err) {
-  console.log("collection removed");
-});
-util.getTvData(0, 1, urlYle1);
-for (let i = 0; i <= 7; i++) {
-  util.getTvData(i, i + 1, urlYle1);
-}
+// Show.remove({}, function(err) {
+//   console.log("collection removed");
+// });
+// util.getTvData(0, 1, urlYle1);
+// for (let i = 0; i <= 7; i++) {
+//   util.getTvData(i, i + 1, urlYle1);
+// }
 
-for (let i = 0; i <= 7; i++) {
-  util.getTvData(i, i + 1, urlYle2);
-}
+// for (let i = 0; i <= 7; i++) {
+//   util.getTvData(i, i + 1, urlYle2);
+// }
 
-for (let i = 0; i <= 7; i++) {
-  util.getTvData(i, i + 1, urlYleTeema);
-}
+// for (let i = 0; i <= 7; i++) {
+//   util.getTvData(i, i + 1, urlYleTeema);
+// }
 
-for (let i = 0; i <= 7; i++) {
-  util.getTvData(i, i + 1, urlYleAreena);
-}
+// for (let i = 0; i <= 7; i++) {
+//   util.getTvData(i, i + 1, urlYleAreena);
+// }

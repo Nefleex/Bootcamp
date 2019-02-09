@@ -5,6 +5,7 @@ const Joi = require("joi");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require(".././models/user");
+const auth = require("../Middleware/auth");
 
 // Joi validating parameter against schema
 function validateUser(user) {
@@ -16,7 +17,32 @@ function validateUser(user) {
       .required(),
     password: Joi.string()
       .min(3)
+      .required(),
+    address: Joi.string()
+      .min(5)
       .max(255)
+      .required(),
+    city: Joi.string()
+      .min(3)
+      .max(255)
+      .required(),
+    postalCode: Joi.number()
+      .min(2)
+      .required()
+  };
+  return Joi.validate(user, schema);
+}
+
+// Joi login validation
+function validateUser(user) {
+  const schema = {
+    email: Joi.string()
+      .min(5)
+      .max(255)
+      .email()
+      .required(),
+    password: Joi.string()
+      .min(3)
       .required()
   };
   return Joi.validate(user, schema);
@@ -72,7 +98,10 @@ router.post("/register", async (req, res) => {
 
     user = new User({
       email: req.body.email,
-      password: req.body.password
+      password: req.body.password,
+      address: req.body.address,
+      city: req.body.city,
+      postalCode: req.body.postalCode
     });
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(user.password, salt);
@@ -82,6 +111,20 @@ router.post("/register", async (req, res) => {
   } catch (err) {
     console.log(err.message);
     res.status(400).send(err.message);
+  }
+});
+
+// User info route
+router.get("/me", auth, async (req, res) => {
+  const email = req.email;
+  const id = req.id;
+  try {
+    const result = await User.findById(id).select("-password");
+
+    res.status(200).send(result);
+  } catch (err) {
+    res.status(500).send("Internal server error");
+    console.log(err);
   }
 });
 
