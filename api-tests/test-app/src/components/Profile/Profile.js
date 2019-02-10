@@ -19,18 +19,76 @@ export default withStyles(styles)(
         fromDB: {
           ...props.data
         },
-        edited: { ...props.data }
+        ...props.data,
+        disablePostalCode: true
       };
+      this.handlePostalCode = this.handlePostalCode.bind(this);
     }
     onChange = e => {
       this.setState({ [e.target.name]: e.target.value });
     };
     handlePostalCode = () => {
-      let el = document.querySelector("#postalCode");
-      console.log(el);
-      el.classList.remove("MuiInputBase-disabled-57");
-      el.classList.remove("MuiInput-disabled-44");
-      el.removeAttribute("disabled");
+      this.setState({ disablePostalCode: !this.state.disablePostalCode });
+    };
+    PostalField = () => {
+      if (this.state.disablePostalCode) {
+        return (
+          <TextField
+            type="text"
+            name="postalCode"
+            id="postalCode"
+            onChange={this.onChange}
+            value={this.state.postalCode}
+            disabled="true"
+            InputProps={{
+              endAdornment: (
+                <InputAdornment onClick={this.handlePostalCode}>
+                  <IconButton aria-label="Toggle edit">
+                    <Edit />
+                  </IconButton>
+                </InputAdornment>
+              )
+            }}
+          />
+        );
+      } else {
+        return (
+          <TextField
+            type="text"
+            name="postalCode"
+            id="postalCode"
+            onChange={this.onChange}
+            value={this.state.postalCode}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment onClick={this.handlePostalCode}>
+                  <IconButton aria-label="Toggle edit">
+                    <Edit />
+                  </IconButton>
+                </InputAdornment>
+              )
+            }}
+          />
+        );
+      }
+    };
+    saveChanges = () => {
+      let json = {
+        email: this.state.email,
+        address: this.state.address,
+        city: this.state.city,
+        postalCode: this.state.postalCode
+      };
+      fetch("http://localhost/api/users/save", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: json
+      })
+        .then(response => response.json())
+        .then(a => console.log(a))
+        .catch(err => console.log(err));
     };
 
     render() {
@@ -44,7 +102,7 @@ export default withStyles(styles)(
               name="email"
               id="email"
               onChange={this.onChange}
-              value={this.state.edited.email}
+              value={this.state.email}
               disabled="true"
             />
             <br />
@@ -54,7 +112,7 @@ export default withStyles(styles)(
               name="address"
               id="address"
               onChange={this.onChange}
-              value={this.state.edited.address}
+              value={this.state.address}
             />
             <br />
             <Typography variant="subtitle1">City</Typography>
@@ -63,12 +121,13 @@ export default withStyles(styles)(
               name="city"
               id="city"
               onChange={this.onChange}
-              value={this.state.edited.city}
+              value={this.state.city}
             />
             <br />
 
             <Typography variant="subtitle1">Postal Code</Typography>
-            <TextField
+            {this.PostalField()}
+            {/* <TextField
               type="text"
               name="postalCode"
               id="postalCode"
@@ -84,14 +143,14 @@ export default withStyles(styles)(
                   </InputAdornment>
                 )
               }}
-            />
+            /> */}
 
             <FormControl className={classes.FormControl}>
               <InputLabel htmlFor="adornment-email">Email</InputLabel>
               <Input
                 name="email"
                 id="adornment-email"
-                value={this.state.fromDB.email}
+                value={this.state.email}
                 onChange={this.onChange}
                 disabled="true"
                 endAdornment={
@@ -142,11 +201,7 @@ export default withStyles(styles)(
             />
             <br />
           </form> */}
-          <button
-            onClick={() => {
-              console.log(this.props.data);
-            }}
-          />
+          <button onClick={this.saveChanges}>Save Changes</button>
         </Fragment>
       );
     }
