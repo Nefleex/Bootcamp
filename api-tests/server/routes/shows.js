@@ -4,6 +4,7 @@ const router = express.Router();
 const fetch = require("node-fetch");
 const moment = require("moment");
 const Show = require(".././models/show");
+const util = require("../util/util_show");
 
 router.get("/", async (req, res) => {
   // Format:
@@ -11,7 +12,7 @@ router.get("/", async (req, res) => {
   const startTime = new Date(req.query.startDate);
   const endTime = new Date(req.query.endDate);
   const channel = req.query.channel;
-  const result = await getShowsBetweenDates(startTime, endTime, channel);
+  const result = await util.getShowsBetweenDates(startTime, endTime, channel);
   res.send(result);
 });
 

@@ -48,6 +48,29 @@ function validateUser(user) {
   return Joi.validate(user, schema);
 }
 
+// Joi save validation
+function validateUserOnSave(user) {
+  const schema = {
+    email: Joi.string()
+      .min(5)
+      .max(255)
+      .email()
+      .required(),
+    address: Joi.string()
+      .min(5)
+      .max(255)
+      .required(),
+    city: Joi.string()
+      .min(3)
+      .max(255)
+      .required(),
+    postalCode: Joi.number()
+      .min(2)
+      .required()
+  };
+  return Joi.validate(user, schema);
+}
+
 // Login
 router.post("/login", async (req, res) => {
   try {
@@ -108,6 +131,32 @@ router.post("/register", async (req, res) => {
     const result = await user.save();
     console.log(result);
     res.status(200).json(`Account created. Your username is ${result.email}`);
+  } catch (err) {
+    console.log(err.message);
+    res.status(400).send(err.message);
+  }
+});
+
+// Save changes
+router.post("/save", async (req, res) => {
+  try {
+    const { error } = validateUserOnSave(req.body);
+    if (error) return res.status(400).send(error.details[0].message);
+    const { email, city, address, postalCode } = req.body;
+    User.findOneAndUpdate(
+      { email: email },
+      { $set: { city: city, address: address, postalCode: postalCode } }
+    ).exec(function(err, user) {
+      if (err) {
+        console.log(err);
+        res.status(500).send(err);
+      } else {
+        res.status(200).send(user);
+      }
+    });
+
+    const result = await user.save();
+    console.log(result);
   } catch (err) {
     console.log(err.message);
     res.status(400).send(err.message);
