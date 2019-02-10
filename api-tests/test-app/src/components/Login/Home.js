@@ -112,10 +112,13 @@ export default withStyles(styles)(
               />
               <Button onClick={this.submit}>Submit</Button>
               <Link to={"/register"}>
-                <Typography variant="overline">To Register</Typography>
+                <Typography variant="overline">TO Register</Typography>
               </Link>
               <Link to={"/tvguide"}>
-                <Typography variant="overline">To TvGuide</Typography>
+                <Typography variant="overline">TO TvGuide</Typography>
+              </Link>
+              <Link to={"/profile"}>
+                <Typography variant="overline">TO PROFILE</Typography>
               </Link>
             </FormControl>
           </div>

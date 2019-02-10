@@ -16,7 +16,6 @@ import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import StatusDisplayer from "./StatusDisplayer";
 import { Link } from "react-router-dom";
 import "./RegisterForm.css";
-import { faFileExcel, faAlignCenter } from "@fortawesome/free-solid-svg-icons";
 const styles = theme => ({
   root: {
     display: "flex",
@@ -168,6 +167,9 @@ export default withStyles(styles)(
               <Link to={"/"}>
                 {" "}
                 <Typography variant="overline">TO LOGIN</Typography>
+              </Link>
+              <Link to={"/profile"}>
+                <Typography variant="overline">TO PROFILE</Typography>
               </Link>
             </FormControl>
           </div>

@@ -1,17 +1,18 @@
 import React, { Component, Fragment } from "react";
 import { Redirect } from "react-router-dom";
 
-export default function ProtectedRoute(WrappedComponent) {
+export default function UserProfile(WrappedComponent) {
   return class extends Component {
     constructor() {
       super();
       this.state = {
         loading: true,
-        redirect: false
+        redirect: false,
+        response: ""
       };
     }
     componentDidMount() {
-      fetch("http://localhost:3000/api/auth", {
+      fetch("http://localhost:3000/api/users/me", {
         headers: {
           Accept: "application/json",
           "Content-Type": "application/json",
@@ -24,10 +25,13 @@ export default function ProtectedRoute(WrappedComponent) {
       })
         .then(res => {
           if (res.status === 200) {
-            this.setState({ loading: false });
+            return res.json();
           } else {
             throw new Error(res.error);
           }
+        })
+        .then(data => {
+          this.setState({ loading: false, response: data });
         })
         .catch(err => {
           console.error(err);
@@ -45,7 +49,7 @@ export default function ProtectedRoute(WrappedComponent) {
       }
       return (
         <Fragment>
-          <WrappedComponent {...this.props} />
+          <WrappedComponent data={this.state.response} {...this.props} />
         </Fragment>
       );
     }

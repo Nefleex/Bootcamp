@@ -5,6 +5,7 @@ import TestChannel from "./TestChannel";
 import ChannelContainer from "./ChannelContainer";
 import "./TvGuide.css";
 import moment from "moment";
+import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faFeather,
