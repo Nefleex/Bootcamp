@@ -8,7 +8,7 @@ const User = require(".././models/user");
 const auth = require("../Middleware/auth");
 
 // Joi validating parameter against schema
-function validateUser(user) {
+function validateUserOnRegister(user) {
   const schema = {
     email: Joi.string()
       .min(5)
@@ -66,7 +66,8 @@ function validateUserOnSave(user) {
       .required(),
     postalCode: Joi.number()
       .min(2)
-      .required()
+      .required(),
+    decoded: Joi.object()
   };
   return Joi.validate(user, schema);
 }
@@ -113,7 +114,7 @@ router.post("/login", async (req, res) => {
 // Register
 router.post("/register", async (req, res) => {
   try {
-    const { error } = validateUser(req.body);
+    const { error } = validateUserOnRegister(req.body);
     if (error) return res.status(400).send(error.details[0].message);
 
     let user = await User.findOne({ email: req.body.email });
@@ -138,35 +139,33 @@ router.post("/register", async (req, res) => {
 });
 
 // Save changes
-router.post("/save", async (req, res) => {
+router.post("/save", auth, async (req, res) => {
   try {
+    console.log(req.body);
     const { error } = validateUserOnSave(req.body);
-    if (error) return res.status(400).send(error.details[0].message);
+    if (error) return res.status(400).json({ msg: error.details[0].message });
     const { email, city, address, postalCode } = req.body;
-    User.findOneAndUpdate(
-      { email: email },
-      { $set: { city: city, address: address, postalCode: postalCode } }
-    ).exec(function(err, user) {
-      if (err) {
-        console.log(err);
-        res.status(500).send(err);
-      } else {
-        res.status(200).send(user);
-      }
-    });
 
+    let user = await User.findOne({ email: email });
+    user.set({
+      city: city,
+      address: address,
+      postalCode: postalCode
+    });
     const result = await user.save();
+
     console.log(result);
+    res.status(200).json({ msg: "Update successful" });
   } catch (err) {
     console.log(err.message);
-    res.status(400).send(err.message);
+    res.status(400).json({ msg: err.message });
   }
 });
 
 // User info route
 router.get("/me", auth, async (req, res) => {
-  const email = req.email;
-  const id = req.id;
+  const email = req.body.decoded.email;
+  const id = req.body.decoded.id;
   try {
     const result = await User.findById(id).select("-password");
 
