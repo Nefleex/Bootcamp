@@ -8,7 +8,7 @@ export default function UserProfile(WrappedComponent) {
       this.state = {
         loading: true,
         redirect: false,
-        response: ""
+        response: null
       };
     }
     componentDidMount() {
@@ -31,6 +31,7 @@ export default function UserProfile(WrappedComponent) {
           }
         })
         .then(data => {
+          console.log(data);
           this.setState({ loading: false, response: data });
         })
         .catch(err => {

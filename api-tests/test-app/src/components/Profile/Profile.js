@@ -368,6 +368,12 @@ export default withStyles(styles)(
           </form> */}
           <button onClick={this.saveChanges}>Save Changes</button>
           {this.ErrorDisplay()}
+          <Link to={"/"}>
+            <Typography variant="overline">TO LOGIN</Typography>
+          </Link>
+          <Link to={"/home"}>
+            <Typography variant="overline">TO HOME</Typography>
+          </Link>
         </Fragment>
       );
     }

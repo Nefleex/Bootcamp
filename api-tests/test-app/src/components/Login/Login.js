@@ -14,7 +14,7 @@ import {
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import { Link } from "react-router-dom";
-import "./Home.css";
+import "./Login.css";
 
 const styles = theme => ({
   root: {
@@ -34,7 +34,7 @@ const styles = theme => ({
 });
 
 export default withStyles(styles)(
-  class Home extends Component {
+  class Login extends Component {
     constructor(props) {
       super(props);
       this.state = {
@@ -66,7 +66,7 @@ export default withStyles(styles)(
           console.log(data);
         })
         .then(() => {
-          this.props.history.push("/tvguide");
+          this.props.history.push("/home");
         })
         .catch(err => console.log(err));
     };
