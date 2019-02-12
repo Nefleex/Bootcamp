@@ -38,22 +38,21 @@ export default class TvGuide extends Component {
     });
   };
 
-  componentDidMount() {
-    const testUrl = `http://localhost:3000/api/shows?${this.formatTime(
-      this.state.minDate,
-      this.state.maxDate
-    )}&channel=yle-tv1`;
-    console.log(testUrl);
+  // componentDidMount() {
+  //   const testUrl = `http://localhost:3000/api/shows?${this.formatTime(
+  //     this.state.minDate,
+  //     this.state.maxDate
+  //   )}&channel=yle-tv1`;
+  // console.log(testUrl);
 
-    // const urlForAllChannels = `https://external.api.yle.fi/v1/programs/services.json?type=tvchannel&$
-    const proxyurl = "https://cors-anywhere.herokuapp.com/";
+  // const urlForAllChannels = `https://external.api.yle.fi/v1/programs/services.json?type=tvchannel&$
 
-    // fetch(proxyurl + yle1Url)
-    //   .then(response => response.json())
-    //   .then(contents => this.setState({ yle1data: contents, isLoaded: true }))
-    //   .then(() => console.log(this.state.yle1data))
-    //   .catch(err => console.log(err));
-  }
+  // fetch(proxyurl + yle1Url)
+  //   .then(response => response.json())
+  //   .then(contents => this.setState({ yle1data: contents, isLoaded: true }))
+  //   .then(() => console.log(this.state.yle1data))
+  //   .catch(err => console.log(err));
+  // }
   switchDate = e => {
     if (e.target.name === "previous") {
       this.setState({
