@@ -24,6 +24,7 @@ export default function UserProfile(WrappedComponent) {
         }
       })
         .then(res => {
+          console.log("im here");
           if (res.status === 200) {
             return res.json();
           } else {
@@ -36,8 +37,7 @@ export default function UserProfile(WrappedComponent) {
         })
         .catch(err => {
           console.error(err);
-          localStorage.clear();
-          sessionStorage.clear();
+
           this.setState({ loading: false, redirect: true });
         });
     }

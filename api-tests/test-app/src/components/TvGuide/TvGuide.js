@@ -1,7 +1,5 @@
 import React, { Component, Fragment } from "react";
-import Banner from "./Banner";
 import Footer from "./Footer";
-import TestChannel from "./TestChannel";
 import ChannelContainer from "./ChannelContainer";
 import "./TvGuide.css";
 import moment from "moment";
@@ -13,8 +11,6 @@ import {
   faCube,
   faCubes
 } from "@fortawesome/free-solid-svg-icons";
-import { KeyboardArrowRight, KeyboardArrowLeft } from "@material-ui/icons/";
-import { IconButton, Button } from "@material-ui/core";
 
 export default class TvGuide extends Component {
   constructor() {

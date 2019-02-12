@@ -11,6 +11,8 @@ import {
   IconButton
 } from "@material-ui/core";
 import { Edit, Save } from "@material-ui/icons/";
+import AppBar from "../Home/AppBar";
+
 export default withStyles(styles)(
   class Profile extends Component {
     constructor(props) {
@@ -58,7 +60,7 @@ export default withStyles(styles)(
               id="email"
               onChange={this.onChange}
               value={this.state.email}
-              disabled={"true"}
+              disabled
               InputProps={{
                 endAdornment: (
                   <InputAdornment onClick={this.handleEmail}>
@@ -106,7 +108,7 @@ export default withStyles(styles)(
               id="postalCode"
               onChange={this.onChange}
               value={this.state.postalCode}
-              disabled={"true"}
+              disabled
               InputProps={{
                 endAdornment: (
                   <InputAdornment onClick={this.handlePostalCode}>
@@ -154,7 +156,7 @@ export default withStyles(styles)(
               id="city"
               onChange={this.onChange}
               value={this.state.city}
-              disabled={"true"}
+              disabled
               InputProps={{
                 endAdornment: (
                   <InputAdornment onClick={this.handleCity}>
@@ -202,7 +204,7 @@ export default withStyles(styles)(
               id="address"
               onChange={this.onChange}
               value={this.state.address}
-              disabled={"true"}
+              disabled
               InputProps={{
                 endAdornment: (
                   <InputAdornment onClick={this.handleAddress}>
@@ -323,6 +325,7 @@ export default withStyles(styles)(
       const { classes } = this.props;
       return (
         <Fragment>
+          <AppBar history={this.props.history} />
           <div>
             {this.AddressField()}
             {this.CityField()}

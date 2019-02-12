@@ -37,7 +37,14 @@ function ButtonAppBar(props) {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" color="inherit" className={classes.grow}>
+          <Typography
+            variant="h6"
+            color="inherit"
+            className={classes.grow}
+            onClick={() => {
+              props.history.push("/home");
+            }}
+          >
             HOME
           </Typography>
           <Button color="inherit">
@@ -50,7 +57,16 @@ function ButtonAppBar(props) {
               <Typography>TVGUIDE</Typography>
             </Link>
           </Button>
-          <Button color="inherit">Login</Button>
+          <Button
+            color="inherit"
+            onClick={() => {
+              localStorage.clear();
+              sessionStorage.clear();
+              props.history.push("/");
+            }}
+          >
+            LOGOUT
+          </Button>
         </Toolbar>
       </AppBar>
     </div>
