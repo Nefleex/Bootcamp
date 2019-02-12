@@ -10,6 +10,7 @@ const userSchema = new mongoose.Schema({
   },
   password: {
     type: String,
+    max: [1026, "Password is too long."],
     required: [true, "Password is required"]
   },
   address: { type: String, required: [true, "Address is required"] },
