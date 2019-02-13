@@ -18,6 +18,10 @@ function validateUserOnRegister(user) {
     password: Joi.string()
       .min(3)
       .required(),
+    userName: Joi.string()
+      .min(3)
+      .max(255)
+      .required(),
     address: Joi.string()
       .min(5)
       .max(255)
@@ -28,6 +32,9 @@ function validateUserOnRegister(user) {
       .required(),
     postalCode: Joi.number()
       .min(2)
+      .required(),
+    phoneNumber: Joi.number()
+      .min(3)
       .required()
   };
   return Joi.validate(user, schema);
@@ -43,6 +50,7 @@ function validateUser(user) {
       .required(),
     password: Joi.string()
       .min(3)
+      .max(1026)
       .required()
   };
   return Joi.validate(user, schema);
@@ -67,6 +75,13 @@ function validateUserOnSave(user) {
     postalCode: Joi.number()
       .min(2)
       .required(),
+    userName: Joi.string()
+      .min(3)
+      .max(255)
+      .required(),
+    phoneNumber: Joi.number()
+      .min(3)
+      .required(),
     decoded: Joi.object()
   };
   return Joi.validate(user, schema);
@@ -78,15 +93,17 @@ router.post("/login", async (req, res) => {
     const { error } = validateUser(req.body);
 
     // Find account whose email matches an email in database
-    if (error) return res.status(400).send(error.details[0].message);
+    if (error) return res.status(400).json({ msg: error.details[0].message });
     const user = await User.findOne({
       email: req.body.email
     });
-    if (!user) return res.status(400).send("Invalid email or password");
+    if (!user)
+      return res.status(400).json({ msg: "Invalid email or password" });
 
     // Compare password in request and hashed password in database
     const match = await bcrypt.compare(req.body.password, user.password);
-    if (!match) return res.status(400).send("Invalid email or password");
+    if (!match)
+      return res.status(400).json({ msg: "Invalid email or password" });
 
     // User authenticated, send json web token
     if (match && user) {
@@ -98,7 +115,7 @@ router.post("/login", async (req, res) => {
         (err, token) => {
           if (err) {
             console.log(err);
-            return res.status(500).send("Token creation failed");
+            return res.status(500).json({ msg: "Token creation failed" });
           } else {
             res.status(200).send({ token: token });
           }
@@ -107,14 +124,16 @@ router.post("/login", async (req, res) => {
       console.log(user);
     }
   } catch (err) {
-    res.status(500).send(err.message);
+    res.status(500).json({ msg: err.message });
   }
 });
 
 // Register
 router.post("/register", async (req, res) => {
   try {
+    console.log(req.body);
     const { error } = validateUserOnRegister(req.body);
+    console.log(error);
     if (error) return res.status(400).send(error.details[0].message);
 
     let user = await User.findOne({ email: req.body.email });
@@ -123,9 +142,11 @@ router.post("/register", async (req, res) => {
     user = new User({
       email: req.body.email,
       password: req.body.password,
+      userName: req.body.userName,
       address: req.body.address,
       city: req.body.city,
-      postalCode: req.body.postalCode
+      postalCode: req.body.postalCode,
+      phoneNumber: req.body.phoneNumber
     });
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(user.password, salt);
@@ -144,13 +165,22 @@ router.post("/save", auth, async (req, res) => {
     console.log(req.body);
     const { error } = validateUserOnSave(req.body);
     if (error) return res.status(400).json({ msg: error.details[0].message });
-    const { email, city, address, postalCode } = req.body;
+    const {
+      email,
+      city,
+      address,
+      postalCode,
+      userName,
+      phoneNumber
+    } = req.body;
 
     let user = await User.findOne({ email: email });
     user.set({
       city: city,
       address: address,
-      postalCode: postalCode
+      postalCode: postalCode,
+      userName: userName,
+      phoneNumber: phoneNumber
     });
     const result = await user.save();
 
