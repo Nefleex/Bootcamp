@@ -40,9 +40,11 @@ export default withStyles(styles)(
       this.state = {
         email: "",
         password: "",
+        userName: "",
         address: "",
         city: "",
         postalCode: "",
+        phoneNumber: "",
         showPassword: false,
         responseText: ""
       };
@@ -55,13 +57,17 @@ export default withStyles(styles)(
       this.setState(state => ({ showPassword: !state.showPassword }));
     };
 
+    validateForm = () => {};
+
     submit = () => {
       const data = {
         email: this.state.email,
         password: this.state.password,
+        userName: this.state.userName,
         address: this.state.address,
         city: this.state.city,
-        postalCode: this.state.postalCode
+        postalCode: this.state.postalCode,
+        phoneNumber: this.state.phoneNumber
       };
       const json = JSON.stringify(data);
       fetch("http://localhost:3000/api/users/register", {
@@ -125,14 +131,15 @@ export default withStyles(styles)(
                 }
               />
             </FormControl>
-            {/* <TextField
-            name="password"
-            value={this.state.password}
-            placeholder="Password"
-            onChange={this.onChange}
-            type="password"
-            required="true"
-          /> */}
+            <FormControl className={classes.FormControl}>
+              <InputLabel htmlFor="component-simple">Username</InputLabel>
+              <Input
+                name="userName"
+                id="component-simple"
+                value={this.state.userName}
+                onChange={this.onChange}
+              />
+            </FormControl>
             <FormControl className={classes.FormControl}>
               <InputLabel htmlFor="component-simple">City</InputLabel>
               <Input
@@ -157,6 +164,15 @@ export default withStyles(styles)(
                 name="postalCode"
                 id="component-simple"
                 value={this.state.postalCode}
+                onChange={this.onChange}
+              />
+            </FormControl>
+            <FormControl className={classes.FormControl}>
+              <InputLabel htmlFor="component-simple">Phone number</InputLabel>
+              <Input
+                name="phoneNumber"
+                id="component-simple"
+                value={this.state.phoneNumber}
                 onChange={this.onChange}
               />
             </FormControl>

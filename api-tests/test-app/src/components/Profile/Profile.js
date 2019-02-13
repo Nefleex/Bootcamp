@@ -8,7 +8,8 @@ import {
   InputLabel,
   Input,
   InputAdornment,
-  IconButton
+  IconButton,
+  Button
 } from "@material-ui/core";
 import { Edit, Save } from "@material-ui/icons/";
 import AppBar from "../Home/AppBar";
@@ -22,83 +23,54 @@ export default withStyles(styles)(
           ...props.data
         },
         ...props.data,
-        disablePostalCode: true,
-        disableCity: true,
-        disableAddress: true,
-        disableEmail: true,
-        errorMsg: []
+        errorMsg: [],
+        isEditMode: false
       };
-      this.handlePostalCode = this.handlePostalCode.bind(this);
     }
+
+    // OnChangeHandler for inputs, uses elements name to determine which state field to change
     onChange = e => {
       this.setState({ [e.target.name]: e.target.value });
     };
-    handleEmail = () => {
-      this.setState({ disableEmail: !this.state.disableEmail });
-    };
-    handlePostalCode = () => {
-      this.setState({ disablePostalCode: !this.state.disablePostalCode });
-    };
-    handleCity = () => {
-      this.setState({ disableCity: !this.state.disableCity });
-    };
-    handleAddress = () => {
-      this.setState({ disableAddress: !this.state.disableAddress });
-    };
+
     // handleEdit = item => {
     //   this.setState({ item: !this.state.item });
     // };
 
-    EmailField = () => {
-      if (this.state.disableEmail) {
+    // Input field components, disabled by default, handler functions enable editing.
+
+    UsernameField = () => {
+      if (!this.state.isEditMode) {
         return (
           <Fragment>
-            <Typography variant="subtitle1">Email</Typography>
+            <Typography variant="subtitle1">Username</Typography>
             <TextField
               type="text"
-              name="email"
-              id="email"
+              name="userName"
+              id="userName"
               onChange={this.onChange}
-              value={this.state.email}
+              value={this.state.userName}
               disabled
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment onClick={this.handleEmail}>
-                    <IconButton aria-label="Toggle edit">
-                      <Edit />
-                    </IconButton>
-                  </InputAdornment>
-                )
-              }}
             />
           </Fragment>
         );
       } else {
         return (
           <Fragment>
-            <Typography variant="subtitle1">Email</Typography>
+            <Typography variant="subtitle1">Username</Typography>
             <TextField
               type="text"
-              name="email"
-              id="email"
+              name="userName"
+              id="userName"
               onChange={this.onChange}
-              value={this.state.email}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment onClick={this.handleEmail}>
-                    <IconButton aria-label="Toggle edit">
-                      <Save />
-                    </IconButton>
-                  </InputAdornment>
-                )
-              }}
+              value={this.state.userName}
             />
           </Fragment>
         );
       }
     };
     PostalField = () => {
-      if (this.state.disablePostalCode) {
+      if (!this.state.isEditMode) {
         return (
           <Fragment>
             <Typography variant="subtitle1">Postal Code</Typography>
@@ -109,15 +81,6 @@ export default withStyles(styles)(
               onChange={this.onChange}
               value={this.state.postalCode}
               disabled
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment onClick={this.handlePostalCode}>
-                    <IconButton aria-label="Toggle edit">
-                      <Edit />
-                    </IconButton>
-                  </InputAdornment>
-                )
-              }}
             />
           </Fragment>
         );
@@ -131,22 +94,13 @@ export default withStyles(styles)(
               id="postalCode"
               onChange={this.onChange}
               value={this.state.postalCode}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment onClick={this.handlePostalCode}>
-                    <IconButton aria-label="Toggle edit">
-                      <Save />
-                    </IconButton>
-                  </InputAdornment>
-                )
-              }}
             />
           </Fragment>
         );
       }
     };
     CityField = () => {
-      if (this.state.disableCity) {
+      if (!this.state.isEditMode) {
         return (
           <Fragment>
             <Typography variant="subtitle1">City</Typography>
@@ -157,15 +111,6 @@ export default withStyles(styles)(
               onChange={this.onChange}
               value={this.state.city}
               disabled
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment onClick={this.handleCity}>
-                    <IconButton aria-label="Toggle edit">
-                      <Edit />
-                    </IconButton>
-                  </InputAdornment>
-                )
-              }}
             />
           </Fragment>
         );
@@ -179,22 +124,13 @@ export default withStyles(styles)(
               id="city"
               onChange={this.onChange}
               value={this.state.city}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment onClick={this.handleCity}>
-                    <IconButton aria-label="Toggle edit">
-                      <Save />
-                    </IconButton>
-                  </InputAdornment>
-                )
-              }}
             />
           </Fragment>
         );
       }
     };
     AddressField = () => {
-      if (this.state.disableAddress) {
+      if (!this.state.isEditMode) {
         return (
           <Fragment>
             <Typography variant="subtitle1">Address</Typography>
@@ -205,15 +141,6 @@ export default withStyles(styles)(
               onChange={this.onChange}
               value={this.state.address}
               disabled
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment onClick={this.handleAddress}>
-                    <IconButton aria-label="Toggle edit">
-                      <Edit />
-                    </IconButton>
-                  </InputAdornment>
-                )
-              }}
             />
           </Fragment>
         );
@@ -227,15 +154,6 @@ export default withStyles(styles)(
               id="address"
               onChange={this.onChange}
               value={this.state.address}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment onClick={this.handleAddress}>
-                    <IconButton aria-label="Toggle edit">
-                      <Save />
-                    </IconButton>
-                  </InputAdornment>
-                )
-              }}
             />
           </Fragment>
         );
@@ -276,7 +194,9 @@ export default withStyles(styles)(
         email: this.state.email,
         address: this.state.address,
         city: this.state.city,
-        postalCode: this.state.postalCode
+        postalCode: this.state.postalCode,
+        userName: this.state.userName,
+        phoneNumber: this.state.phoneNumber
       };
       // if (this.state.errorMsg === []) {
       fetch("http://localhost:3000/api/users/save", {
@@ -292,13 +212,6 @@ export default withStyles(styles)(
         },
         body: JSON.stringify(json)
       })
-        // .then(res => {
-        //   if (res.status === 200) {
-        //     return res.json();
-        //   } else {
-        //     throw new Error(res.error);
-        //   }
-        // })
         .then(res => {
           if (res.status === 200) {
             return res.json();
@@ -318,7 +231,12 @@ export default withStyles(styles)(
           this.setState({ errorMsg: data.msg });
         })
         .catch(err => console.log(err));
+      this.setState({ isEditMode: false });
       // }
+    };
+
+    setOriginalValues = () => {
+      this.setState({ ...this.state.fromDb, isEditMode: false });
     };
 
     render() {
@@ -327,49 +245,35 @@ export default withStyles(styles)(
         <Fragment>
           <AppBar history={this.props.history} />
           <div>
+            <Typography variant="h3">Your Profile</Typography>
+            <EmailField
+              change={this.onChange}
+              email={this.state.email}
+              editMode={this.state.isEditMode}
+            />
+            <UsernameField
+              change={this.onChange}
+              username={this.state.userName}
+              editMode={this.state.isEditMode}
+            />
             {this.AddressField()}
             {this.CityField()}
             {this.PostalField()}
           </div>
-          {/* <form>
-            <label htmlFor="email">Email</label>
-            <input
-              type="text"
-              name="email"
-              id="email"
-              onChange={this.onChange}
-              value={this.state.email}
-            />
-            <br />
-            <label htmlFor="address">Address</label>
-            <input
-              type="text"
-              name="address"
-              id="address"
-              onChange={this.onChange}
-              value={this.state.address}
-            />
-            <br />
-            <label htmlFor="city">City</label>
-            <input
-              type="text"
-              name="city"
-              id="city"
-              onChange={this.onChange}
-              value={this.state.city}
-            />
-            <br />
-            <label htmlFor="postalCode">Postal Code</label>
-            <input
-              type="text"
-              name="postalCode"
-              id="postalCode"
-              onChange={this.onChange}
-              value={this.state.postalCode}
-            />
-            <br />
-          </form> */}
-          <button onClick={this.saveChanges}>Save Changes</button>
+
+          <Button variant="contained" onClick={this.saveChanges}>
+            <Save />
+            Save Changes
+          </Button>
+
+          <Button
+            variant="contained"
+            onClick={() => {
+              this.setState({ isEditMode: true });
+            }}
+          >
+            <Edit /> EDIT
+          </Button>
           {this.ErrorDisplay()}
           <Link to={"/"}>
             <Typography variant="overline">TO LOGIN</Typography>
@@ -399,3 +303,65 @@ const styles = theme => ({
     marginTop: 30
   }
 });
+
+const EmailField = props => {
+  if (!props.editMode) {
+    return (
+      <Fragment>
+        <Typography variant="subtitle1">Email</Typography>
+        <TextField
+          type="text"
+          name="email"
+          id="email"
+          onChange={props.change}
+          value={props.email}
+          disabled
+        />
+      </Fragment>
+    );
+  } else {
+    return (
+      <Fragment>
+        <Typography variant="subtitle1">Email</Typography>
+        <TextField
+          type="text"
+          name="email"
+          id="email"
+          onChange={props.change}
+          value={props.email}
+        />
+      </Fragment>
+    );
+  }
+};
+
+const UsernameField = props => {
+  if (!props.editMode) {
+    return (
+      <Fragment>
+        <Typography variant="subtitle1">Username</Typography>
+        <TextField
+          type="text"
+          name="userName"
+          id="userName"
+          onChange={props.change}
+          value={props.username}
+          disabled
+        />
+      </Fragment>
+    );
+  } else {
+    return (
+      <Fragment>
+        <Typography variant="subtitle1">Username</Typography>
+        <TextField
+          type="text"
+          name="userName"
+          id="userName"
+          onChange={props.change}
+          value={props.username}
+        />
+      </Fragment>
+    );
+  }
+};

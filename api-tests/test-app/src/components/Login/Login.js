@@ -39,7 +39,8 @@ export default withStyles(styles)(
       super(props);
       this.state = {
         email: "",
-        password: ""
+        password: "",
+        error: ""
       };
     }
     onChange = e => {
@@ -50,6 +51,7 @@ export default withStyles(styles)(
     };
 
     submit = () => {
+      this.setState({ error: "" });
       const data = { email: this.state.email, password: this.state.password };
       const json = JSON.stringify(data);
       fetch("http://localhost:3000/api/users/login", {
@@ -63,12 +65,17 @@ export default withStyles(styles)(
         .then(data => {
           localStorage.setItem("token", data.token);
           sessionStorage.setItem("token", data.token);
-          console.log(data);
+          console.log(data.msg);
+          this.setState({ error: data.msg });
         })
         .then(() => {
-          this.props.history.push("/home");
+          if (!this.state.error) this.props.history.push("/home");
         })
         .catch(err => console.log(err));
+    };
+
+    clearField = e => {
+      if (this.state.error) this.setState({ [e.target.name]: "" });
     };
 
     render() {
@@ -84,6 +91,7 @@ export default withStyles(styles)(
                 id="component-simple"
                 value={this.state.email}
                 onChange={this.onChange}
+                onFocus={this.clearField}
               />
             </FormControl>
             <br />
@@ -95,6 +103,7 @@ export default withStyles(styles)(
                 type={this.state.showPassword ? "text" : "password"}
                 value={this.state.password}
                 onChange={this.onChange}
+                onFocus={this.clearField}
                 endAdornment={
                   <InputAdornment position="end">
                     <IconButton
@@ -111,6 +120,7 @@ export default withStyles(styles)(
                 }
               />
               <Button onClick={this.submit}>Submit</Button>
+              <div>{this.state.error}</div>
               <Link to={"/register"}>
                 <Typography variant="overline">TO Register</Typography>
               </Link>

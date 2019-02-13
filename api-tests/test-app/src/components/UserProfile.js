@@ -24,7 +24,6 @@ export default function UserProfile(WrappedComponent) {
         }
       })
         .then(res => {
-          console.log("im here");
           if (res.status === 200) {
             return res.json();
           } else {
