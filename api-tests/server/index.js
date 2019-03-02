@@ -7,9 +7,10 @@ const bodyParser = require("body-parser");
 const users = require("./routes/users");
 const shows = require("./routes/shows");
 const auth = require("./routes/auth");
-const headers = require("./Middleware/headers");
+const headers = require("./middleware/headers");
 const Show = require("./models/show");
 const util = require("./util/util_show");
+const schedule = require("node-schedule");
 
 const cors = require("cors");
 require("dotenv").config();
@@ -34,7 +35,7 @@ app.use("/api/auth/", auth);
 app.use("/api/shows/", shows);
 
 app.get("/api/shows/", async (req, res) => {
-  // http://localhost:3000/api/shows?startDate=123&endDate=345
+  // http://localhost:3000/api/shows?startDate=YYYY-MM-DD&endDate=YYYY-MM-DD
   const startTime = new Date(req.query.startDate);
   const endTime = new Date(req.query.endDate);
   const channel = req.query.channel;
@@ -44,22 +45,32 @@ app.get("/api/shows/", async (req, res) => {
 
 app.listen("3000");
 
-// Show.remove({}, function(err) {
-//   console.log("collection removed");
-// });
-// util.getTvData(0, 1, urlYle1);
-// for (let i = 0; i <= 7; i++) {
-//   util.getTvData(i, i + 1, urlYle1);
-// }
+fetchData = () => {
+  Show.remove({}, function(err) {
+    console.log("collection removed");
+  });
+  util.getTvData(0, 1, urlYle1);
+  for (let i = 0; i <= 7; i++) {
+    util.getTvData(i, i + 1, urlYle1);
+  }
 
-// for (let i = 0; i <= 7; i++) {
-//   util.getTvData(i, i + 1, urlYle2);
-// }
+  for (let i = 0; i <= 7; i++) {
+    util.getTvData(i, i + 1, urlYle2);
+  }
 
-// for (let i = 0; i <= 7; i++) {
-//   util.getTvData(i, i + 1, urlYleTeema);
-// }
+  for (let i = 0; i <= 7; i++) {
+    util.getTvData(i, i + 1, urlYleTeema);
+  }
 
-// for (let i = 0; i <= 7; i++) {
-//   util.getTvData(i, i + 1, urlYleAreena);
-// }
+  for (let i = 0; i <= 7; i++) {
+    util.getTvData(i, i + 1, urlYleAreena);
+  }
+};
+// Fetch once on start up
+fetchData();
+
+// Fetch data from api on a schedule
+const timedJob = schedule.scheduleJob("* 03 * * *", function() {
+  console.log("Scheduler running");
+  fetchData();
+});

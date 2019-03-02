@@ -1,6 +1,6 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const fetch = require("node-fetch");
+const axios = require("axios");
 const moment = require("moment");
 const Show = require("../models/show");
 
@@ -45,29 +45,34 @@ async function createShow(startTime, endTime, title, description, source) {
 }
 
 getTvData = (offset1, offset2, url) => {
-  fetch(`${url}${formatTime(offset1, offset2)}&${process.env.API_KEY} `)
-    .then(res => res.json())
-    .then(json =>
-      json.data.map(item => {
-        if (item.content.title.fi) {
-          createShow(
-            item.startTime,
-            item.endTime,
-            item.content.title.fi,
-            item.content.description.fi,
-            item.service.id
-          );
-        } else {
-          createShow(
-            item.startTime,
-            item.endTime,
-            item.content.title.sv,
-            item.content.description.sv,
-            item.service.id
-          );
-        }
+  try {
+    axios
+      .get(`${url}${formatTime(offset1, offset2)}&${process.env.API_KEY} `)
+      .then(json => {
+        json.data.data.map(item => {
+          if (item.content.title.fi) {
+            createShow(
+              item.startTime,
+              item.endTime,
+              item.content.title.fi,
+              item.content.description.fi,
+              item.service.id
+            );
+          } else {
+            createShow(
+              item.startTime,
+              item.endTime,
+              item.content.title.sv,
+              item.content.description.sv,
+              item.service.id
+            );
+          }
+        });
       })
-    );
+      .catch(e => console.log(e));
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 formatTime = (offset1, offset2) => {

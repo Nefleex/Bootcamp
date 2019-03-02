@@ -5,7 +5,72 @@ const Joi = require("joi");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require(".././models/user");
-const auth = require("../Middleware/auth");
+const auth = require("../middleware/auth");
+
+function validationMessages(field, errors, type) {
+  errors.forEach(error => {
+    if (type === "str" || "string") {
+      switch (error.type) {
+        case "any.empty":
+          error.message = `${field} should not be empty`;
+          break;
+        case "string.min":
+          error.message = `${field} should be atleast ${
+            error.context.limit
+          } characters.`;
+        case "string.max":
+          error.message = `${field} should have at most ${
+            error.context.limit
+          } characters.`;
+        default:
+          break;
+      }
+    }
+    if (type === "nmb" || "number") {
+      switch (error.type) {
+        case "any.empty":
+          error.message = `${field} should not be empty`;
+          break;
+        case "number.base":
+          error.message = `${field} can contain only numbers`;
+          break;
+        case "number.min":
+          error.message = `${field} should be atleast ${
+            error.context.limit
+          } characters.`;
+        case "number.max":
+          error.message = `${field} should have at most ${
+            error.context.limit
+          } characters.`;
+        default:
+          break;
+      }
+    }
+    if (type === "email" || "Email") {
+      switch (error.type) {
+        case "any.empty":
+          error.message = `${field} should not be empty.`;
+          break;
+        case "string.min":
+          error.message = `${field} should have at least ${
+            error.context.limit
+          } characters.`;
+          break;
+        case "string.max":
+          error.message = `${field} should have at most ${
+            error.context.limit
+          } characters.`;
+          break;
+        case "string.email":
+          error.message = `You must enter a valid ${field}.`;
+          break;
+        default:
+          break;
+      }
+    } else throw new Error("validationMessages: invalid type argument.");
+  });
+  return errors;
+}
 
 // Joi validating parameter against schema
 function validateUserOnRegister(user) {
@@ -14,28 +79,35 @@ function validateUserOnRegister(user) {
       .min(5)
       .max(255)
       .email()
-      .required(),
+      .required()
+      .error(errors => validationMessages("Email", errors, "email")),
     password: Joi.string()
       .min(3)
-      .required(),
+      .required()
+      .error(errors => validationMessages("Password", errors, "string")),
     userName: Joi.string()
       .min(3)
       .max(255)
-      .required(),
+      .required()
+      .error(errors => validationMessages("Username", errors, "string")),
     address: Joi.string()
       .min(5)
       .max(255)
-      .required(),
+      .required()
+      .error(errors => validationMessages("Address", errors, "string")),
     city: Joi.string()
       .min(3)
       .max(255)
-      .required(),
+      .required()
+      .error(errors => validationMessages("City", errors, "string")),
     postalCode: Joi.number()
       .min(2)
-      .required(),
+      .required()
+      .error(errors => validationMessages("Postal code", errors, "number")),
     phoneNumber: Joi.number()
       .min(3)
       .required()
+      .error(errors => validationMessages("Phone number", errors, "number"))
   };
   return Joi.validate(user, schema);
 }
@@ -47,11 +119,13 @@ function validateUser(user) {
       .min(5)
       .max(255)
       .email()
-      .required(),
+      .required()
+      .error(errors => validationMessages("Email", errors, "email")),
     password: Joi.string()
       .min(3)
       .max(1026)
       .required()
+      .error(errors => validationMessages("Password", errors, "string"))
   };
   return Joi.validate(user, schema);
 }
@@ -63,25 +137,31 @@ function validateUserOnSave(user) {
       .min(5)
       .max(255)
       .email()
-      .required(),
+      .required()
+      .error(errors => validationMessages("Email", errors, "email")),
     address: Joi.string()
       .min(5)
       .max(255)
-      .required(),
+      .required()
+      .error(errors => validationMessages("Address", errors, "string")),
     city: Joi.string()
       .min(3)
       .max(255)
-      .required(),
+      .required()
+      .error(errors => validationMessages("City", errors, "string")),
     postalCode: Joi.number()
       .min(2)
-      .required(),
+      .required()
+      .error(errors => validationMessages("Postal code", errors, "number")),
     userName: Joi.string()
       .min(3)
       .max(255)
-      .required(),
+      .required()
+      .error(errors => validationMessages("Username", errors, "string")),
     phoneNumber: Joi.number()
       .min(3)
-      .required(),
+      .required()
+      .error(errors => validationMessages("Phone number", errors, "number")),
     decoded: Joi.object()
   };
   return Joi.validate(user, schema);
@@ -134,10 +214,10 @@ router.post("/register", async (req, res) => {
     console.log(req.body);
     const { error } = validateUserOnRegister(req.body);
     console.log(error);
-    if (error) return res.status(400).send(error.details[0].message);
+    if (error) return res.status(400).json({ msg: error.details[0].message });
 
     let user = await User.findOne({ email: req.body.email });
-    if (user) return res.status(400).send("Email already registered.");
+    if (user) return res.status(400).json({ msg: "Email already registered." });
 
     user = new User({
       email: req.body.email,
@@ -152,10 +232,12 @@ router.post("/register", async (req, res) => {
     user.password = await bcrypt.hash(user.password, salt);
     const result = await user.save();
     console.log(result);
-    res.status(200).json(`Account created. Your username is ${result.email}`);
+    res.status(200).json({
+      msg: `Account created. Your login is ${result.email}`
+    });
   } catch (err) {
     console.log(err.message);
-    res.status(400).send(err.message);
+    res.status(400).json(err.message);
   }
 });
 
